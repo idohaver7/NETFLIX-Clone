@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  node_server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Expose Node.js server on port 3000
+    networks:
+      - app_network
+
+  cpp_server:
+    build:
+      context: ./tcpServer
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000" # Expose C++ server on port 4000 (adjust as necessary)
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
