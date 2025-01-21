@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="home_sign_in">SIGN IN</string>
+    <string name="signUpBtnText">SIGN UP</string>
+    <string name="netflixLogo">netflix logo on the sign up</string>
+    <string name="TvHomePage"><![CDATA[Unlimited movies, TV shows & more]]></string>
+    <string name="netflix_dark_name">logo</string>
+    <string name="night_mode_switch">Night Mode</string>
 </resources>
