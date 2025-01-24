@@ -25,8 +25,8 @@ const fetchFromTcpServer = (message) => {
     });
   });
 };
-const createMovie = async (title, category, userId) => {
-  const movie = new Movie({ title, category, watchedBy: [userId] });
+const createMovie = async (title, category, video, description, image) => {
+  const movie = new Movie({ title, category, video, description, image });
   return await movie.save();
 };
 
