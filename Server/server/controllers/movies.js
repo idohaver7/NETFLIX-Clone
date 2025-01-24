@@ -1,6 +1,7 @@
 const movieService = require('../services/movies');
 const categoryController = require('./category');
 const userService = require('../services/user');
+
 const createMovie = async (req, res) => {
   try {
     const { title, category, video, description, image } = req.body;
@@ -9,7 +10,7 @@ const createMovie = async (req, res) => {
       return res.status(400).json({ errors: ['Title and Category are required'] });
     }
 
-    const movie = await movieService.createMovie(title, category, userId);
+    const movie = await movieService.createMovie(title, category, video, description, image);
     res.status(201).json(movie);
   } catch (error) {
     console.error('Error creating movie:', error.message);
