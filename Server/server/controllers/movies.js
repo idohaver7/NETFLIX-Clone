@@ -3,15 +3,12 @@ const categoryController = require('./category');
 const userService = require('../services/user');
 const createMovie = async (req, res) => {
   try {
-    const { title, category, userId } = req.body;
+    const { title, category, video, description, image } = req.body;
 
     if (!title || !category) {
       return res.status(400).json({ errors: ['Title and Category are required'] });
     }
 
-    if (!userId) {
-      return res.status(400).json({ errors: ['User ID is required'] });
-    }
     const movie = await movieService.createMovie(title, category, userId);
     res.status(201).json(movie);
   } catch (error) {
@@ -23,12 +20,6 @@ const createMovie = async (req, res) => {
 
   const getMovies = async (req, res) => {
     try {
-      // Check if the user is logged in (middleware will set req.user)
-      const user = req.headers['userid'];
-      if (!user) {
-        return res.status(401).json({ error: 'User is not logged in.' });
-      }
-  
       // Fetch all movies with their categories populated
       const movies = await movieService.getMovies(); // Ensure category is populated
   

@@ -5,13 +5,13 @@ const auth = require('../middleware/auth');
 
 router
   .route('/')
-  .get(auth.isLoggedIn, categoryController.getCategories)
-  .post(auth.isLoggedIn, categoryController.createCategory);
+  .get(auth.verifyToken, categoryController.getCategories)
+  .post(auth.verifyManagerToken, categoryController.createCategory);
 
 router
   .route('/:id')
-  .get(auth.isLoggedIn, categoryController.getCategory)
-  .patch(auth.isLoggedIn, categoryController.updateCategory)
-  .delete(auth.isLoggedIn, categoryController.deleteCategory);
+  .get(auth.verifyToken, categoryController.getCategory)
+  .patch(auth.verifyManagerToken, categoryController.updateCategory)
+  .delete(auth.verifyManagerToken, categoryController.deleteCategory);
 
 module.exports = router;

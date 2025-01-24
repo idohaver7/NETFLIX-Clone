@@ -4,18 +4,19 @@ const movieController = require('../controllers/movies');
 const auth = require('../middleware/auth');
 
 router.route('/')
-  .get(auth.isLoggedIn, movieController.getMovies)
-  .post(movieController.createMovie);
+  .get(auth.verifyToken, movieController.getMovies)
+  .post(auth.verifyManagerToken, movieController.createMovie);
 
 router.route('/:id')
-  .get(auth.isLoggedIn, movieController.getMovie)
-  .put(auth.isLoggedIn, movieController.updateMovie)
-  .delete(auth.isLoggedIn, movieController.deleteMovie);
-  router.route('/:id/recommend')
-  .get(auth.isLoggedIn, movieController.getRecommendedMovies)
-  .post(auth.isLoggedIn, movieController.addToRecommendedMovies);
+  .get(auth.verifyToken, movieController.getMovie)
+  .put(auth.verifyManagerToken, movieController.updateMovie)
+  .delete(auth.verifyManagerToken, movieController.deleteMovie);
+
+router.route('/:id/recommend')
+  .get(auth.verifyToken, movieController.getRecommendedMovies)
+  .post(auth.verifyToken, movieController.addToRecommendedMovies);
 
 
-router.get('/search/:query', auth.isLoggedIn, movieController.searchMovies);
+router.get('/search/:query', auth.verifyToken, movieController.searchMovies);
 
 module.exports = router;
