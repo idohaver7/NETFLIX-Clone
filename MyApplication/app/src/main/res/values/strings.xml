@@ -6,4 +6,14 @@
     <string name="TvHomePage"><![CDATA[Unlimited movies, TV shows & more]]></string>
     <string name="netflix_dark_name">logo</string>
     <string name="night_mode_switch">Night Mode</string>
+    <string name="movie_name">movie_name</string>
+    <string name="movie_category">category:to do</string>
+    <string name="PlayBtnText">Play</string>
+    <string name="movie_description">movie_description</string>
+    <string name="title_activity_full_screen_movie">FullScreenMovieActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="recommended_movies">Recommended Movies</string>
+    <string name="_10_secondsbtn">+10 seconds</string>
+    <string name="minus10_secondsbtn">-10 seconds</string>
 </resources>
