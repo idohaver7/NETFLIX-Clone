@@ -2,7 +2,8 @@ const categoryService = require('../services/category');
 
 
 const createCategory = async (req, res) => {
-  try{
+  try {
+    console.log(req.body)
     if(!req.body.name){
         return res.status(400).json({ errors: ['Name is required'] });
     }
@@ -32,12 +33,14 @@ catch(err){
     res.status(400).json({ errors: ['Bad Request'], details: err.message });
 }
 };
+
 const updateCategory = async (req, res) => {
   try {
     if(!req.body.name){
         return res.status(400).json({ errors: ['Name is required'] });
     }
-    const updatedCategory = await categoryService.updateCategory(req.params.id, req.body.name);
+    
+    const updatedCategory = await categoryService.updateCategory(req.params.id, req.body.name, req.body.promoted);
     if (!updatedCategory) {
       return res.status(404).json({ errors: ['Category not found'] });
     }
@@ -47,6 +50,7 @@ const updateCategory = async (req, res) => {
     res.status(500).json({ errors: ['Internal Server Error'], details: err.message });
   }
 };
+
 const deleteCategory = async (req, res) => {
   try {
     const deletedCategory = await categoryService.deleteCategory(req.params.id);

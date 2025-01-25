@@ -1,7 +1,7 @@
-import Header from "../components/HomePage/Header"
+import Header from "../components/Header"
 import Footer from "../components/HomePage/Footer"
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function Register() {
     const [email, setEmail] = useState('')
@@ -10,7 +10,15 @@ export default function Register() {
     const [name, setName] = useState('')
     const [error, setError] = useState('')
     const navigate = useNavigate()
+    const [token, setToken] = useState(() => {
+        const token = localStorage.getItem('jwtToken')
+        return token
+    })
 
+    useEffect(() => {
+        navigate('/home')
+    }, [])
+    
     const handleChange = (event) => {
         const { name, value } = event.target
 
@@ -20,7 +28,7 @@ export default function Register() {
             setPassowrd(value)
         else if (name === 'name')
             setName(value)
-        else if (name == 'profile_picture')
+        else if (name === 'profile_picture')
             setProfile(value)
     }
 

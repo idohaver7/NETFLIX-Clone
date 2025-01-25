@@ -26,6 +26,9 @@
   src: url("../public/fonts/NetflixSans-Bold.otf") format("opentype");
 }
 
+html {
+  scroll-behavior: smooth;
+}
 body {
   background-color: #000000;
 }
@@ -33,15 +36,6 @@ body {
 * {
   font-family: NetflixSans;
   color: #ffffff;
-}
-
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
 }
 
 .section__title {
@@ -53,21 +47,6 @@ body {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
@@ -86,7 +65,7 @@ body {
   left: 0;
   width: 100%;
   padding: 25px 0;
-  z-index: 3;
+  z-index: 4;
 }
 
 .container {
@@ -103,6 +82,12 @@ body {
   border: none;
   color: #ffffff;
   text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s all ease;
+}
+
+.button:hover {
+  opacity: 0.5;
 }
 
 .full__button {
@@ -318,7 +303,7 @@ body {
   margin-top: 0;
 }
 
-.form__container input {
+.form__container input, .form__container textarea, .form__container select {
   display: block;
   width: 100%;
   background: transparent;
@@ -328,6 +313,10 @@ body {
   font-size: 1.2rem;
   font-weight: 300;
   margin-bottom: 15px;
+}
+
+.form__container select {
+  appearance: none;
 }
 
 .form__container label {
@@ -346,6 +335,7 @@ body {
   font-size: 1.2rem;
   font-weight: 700;
   margin-top: 10px;
+  cursor: pointer;
 }
 
 .form__error {
@@ -355,4 +345,473 @@ body {
   color: #ffffff;
   border: 1px solid #ffffff;
   padding: 10px;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-radius: 50%;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  animation: pulse 1s linear infinite;
+  margin: auto;
+}
+.loader:after {
+  content: '';
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: scaleUp 1s linear infinite;
+}
+
+@keyframes scaleUp {
+  0% { transform: translate(-50%, -50%) scale(0) }
+  60% , 100% { transform: translate(-50%, -50%)  scale(1)}
+}
+@keyframes pulse {
+  0% , 60% , 100%{ transform:  scale(1) }
+  80% { transform:  scale(1.2)}
+}
+
+.loading__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.movieHero__wrapper {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  min-height: 50vh;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-bottom: 5rem;
+  position: relative;
+}
+
+.movieHero__wrapper::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,.5), rgba(0,0,0,1) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.movieHero__content {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.movieHero__content h1 {
+  margin-bottom: 15px;
+}
+
+.movieHero__content p {
+  max-width: 500px;
+  margin: 0;
+  margin-bottom: 35px;
+}
+
+.movieHero__content .button {
+  background: #ffffff;
+  color: #000000;
+}
+
+.slider {
+  display: flex;
+  /*overflow-x: auto;*/
+  gap: 15px;
+  scroll-snap-type: x mandatory; /* Enables x-axis scroll snapping */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+  scroll-behavior: smooth; /* Smooth scroll on snap */
+  width: 100%; /* Full width of the container */
+}
+
+.slide {
+  flex: 0 0 20%; /* Each slide has a flex basis of 100% of the slider's width */
+  scroll-snap-align: start; /* Aligns the snap point at the start of the slide */
+  width: 100%; /* Full width to prevent breaks in the layout */
+  position: relative;
+  box-sizing: border-box; /* Includes padding and border in the element's width */
+}
+
+.slide img {
+  width: 100%; /* Ensures the image fills the slide */
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+  display: block; /* Removes bottom space/gap */
+}
+
+.movie__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.6);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s all ease;
+}
+
+.movie__buttons .button {
+  background: white;
+  display: flex;
+  padding: 0;
+  border-radius: 100%;
+}
+
+.button.button__secondery {
+  background: #141414;
+}
+
+.button.button__secondery svg {
+  fill: #ffffff;
+}
+
+.movie__buttons .button svg {
+  width: 42px;
+  height: 42px;
+}
+
+.movie__card {
+  transition: 0.3s all ease;
+}
+
+.movie__card:hover {
+  transform: scale(1.2);
+  z-index: 2;
+}
+.movie__card:hover .movie__buttons {
+  opacity: 1;
+  visibility: visible;
+}
+
+.fullLoading__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background: #181818;
+}
+
+.movie__modal {
+  background: #181818;
+  position: relative;
+}
+
+.close__modal {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 1.6rem;
+  background: #181818;
+  border: 1px solid #ffffff;
+  border-radius: 100%;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  cursor: pointer;
+  transition: 0.3s all ease;
+}
+
+.movie__modal .movieHero__wrapper::before {
+  background: linear-gradient(rgba(24,24,24,0) 0%, rgba(24,24,24,.5) 80%, rgba(24,24,24,1) 100%)
+}
+
+.recommendMovies__wrapper {
+  padding: 25px;
+}
+
+.recommendMovies__wrapper .loading__wrapper {
+  min-height: 41vh;
+}
+
+.video__container {
+  position: relative;
+  width: 100%;
+  margin: auto;
+}
+
+.video__player {
+  width: 100%;
+  height: auto;
+}
+
+.video__controls {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+}
+
+.video__controls button,
+.video__controls input {
+  background: none;
+  border: none;
+  color: white;
+}
+
+.video__controls svg {
+  fill: #ffffff;
+}
+
+.video__controls span {
+  flex-shrink: 0;
+}
+
+.close__video {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 1.6rem;
+  background: #181818;
+  border: 1px solid #ffffff;
+  border-radius: 100%;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  transition: 0.3s all ease;
+}
+
+.video__container:hover .close__video {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+.video__volume {
+  max-width: 70px;
+}
+
+.userImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+.header__buttons {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navbar {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar__link {
+  text-decoration: none;
+}
+
+.input__field {
+  position: relative;
+}
+
+.input__field .search {
+  background: #000000;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 10px 0 10px 40px;
+}
+
+.input__field svg {
+  width: 22px;
+  height: 22px;
+  fill: #ffffff;
+  position: absolute;
+  left: 8px;
+  top: 8px
+}
+
+.category__wrapper {
+  margin-bottom: 2.5rem;
+}
+
+.searchModal {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  padding: 150px 25px 0;
+  background: #000000;
+  z-index: 3;
+}
+
+.search__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.background__video {
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.admin__page {
+  margin-top: 120px;
+  margin-bottom: 50px;
+}
+
+.admin__block {
+  border: 0.0625rem solid rgba(128, 128, 128, 0.4);
+  background: #181818;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.adminModal__wrapper {
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin__modal {
+  background: #181818;
+  min-width: 500px;
+  border: 0.0625rem solid rgba(128, 128, 128, 0.4);
+  border-radius: 10px;
+  position: relative;
+  padding: 25px;
+}
+
+.adminBlock__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin__modal .close__modal {
+  font-size: 1rem;
+  width: 30px;
+  height: 30px;
+}
+
+.adminModal__header {
+  border-bottom:  0.0625rem solid rgba(128, 128, 128, 0.4);
+  padding-bottom: 25px;
+  text-align: center;
+}
+
+.adminModal__header h2 {
+  margin: 0;
+}
+
+.admin__form {
+  margin-top: 25px;
+  background: transparent;
+  padding: 0;
+}
+
+.form__input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.admin__form .form__input label {
+  flex-shrink: 0;
+}
+
+.admin__form .form__input input {
+  width: auto;
+}
+
+.adminBlock__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border-bottom: 0.0625rem solid rgba(128, 128, 128, 0.4);
+}
+
+.adminBlock__row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.adminBlock__row svg {
+  fill: #ffffff;
+  width: 20px;
+  height: 20px;
+}
+
+.adminTable__headers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  font-weight: 700;
+  border-bottom: 0.0625rem solid rgba(128, 128, 128, 0.4);
+  padding-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.adminRow__buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.movies__block .adminTable__headers {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.movies__block .adminBlock__row {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }

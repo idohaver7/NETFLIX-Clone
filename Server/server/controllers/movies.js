@@ -40,7 +40,7 @@ const createMovie = async (req, res) => {
       }, {});
   
       // Fetch the last 20 movies the user has watched
-      const lastWatchedMovies = await movieService.getLastWatchedMovies(user._id);
+      const lastWatchedMovies = await movieService.getLastWatchedMovies(req.userId);
   
       // If the user has watched movies, add a special category
       if (lastWatchedMovies.length > 0) {
@@ -101,11 +101,12 @@ const getMovie = async (req, res) => {
   };
   const getRecommendedMovies = async (req, res) => {
     try {
-      const response = await movieService.getRecommendedMovies(req.params.id,req.headers['userid']);
+      const response = await movieService.getRecommendedMovies(req.params.id,req.userId);
       if (!response) {
         return res.status(404).json({ errors: ['Movie or UserId not found'] });
       }
       const lines=response.split('\n');
+      console.log(lines)
       if(lines[0]=="200 OK"){
         return res.status(200).json(lines[2]);
       }
@@ -116,7 +117,7 @@ const getMovie = async (req, res) => {
   };
   const addToRecommendedMovies = async (req, res) => {
     try {
-      const response = await movieService.addToRecommendedMovies(req.params.id,req.headers['userid']);
+      const response = await movieService.addToRecommendedMovies(req.params.id,req.userId);
       if (!response) {
         return res.status(404).json({ errors: ['Movie or UserID not found'] });
       }
@@ -145,4 +146,9 @@ const getMovie = async (req, res) => {
     }
   }
 
-module.exports = { createMovie, getMovies, getMovie, updateMovie, deleteMovie,getRecommendedMovies,addToRecommendedMovies, searchMovies };
+  const allMovies = async (req, res) => {
+    const movies = await movieService.getMovies()
+    res.status(200).json(movies)
+  }
+
+module.exports = { createMovie, getMovies, getMovie, updateMovie, deleteMovie,getRecommendedMovies,addToRecommendedMovies, searchMovies, allMovies };

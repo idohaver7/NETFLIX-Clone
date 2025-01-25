@@ -18,11 +18,12 @@ const getCategories = async () => {
   return await Category.find({});
 };
 
-const updateCategory = async (id,name) => {
+const updateCategory = async (id,name,promoted) => {
   try{
-    const category = await getCategoryById(id);
+    const category = await find(id);
     if (!category) return null;
     category.name = name;
+    category.promoted = promoted
     await category.save();
     return category;
   }

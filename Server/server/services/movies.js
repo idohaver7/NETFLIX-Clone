@@ -90,6 +90,7 @@ const getRecommendedMovies = async (movieId,userId) => {
     return null;
   }
 };
+
 const addToRecommendedMovies = async (movieId,userId) => {
   try {
     const movie = await getMovieById(movieId);
@@ -142,8 +143,13 @@ const deleteRecommendedMovies = async (movieId,userId) => {
 };
 
 const searchMovies = async (query) => {
-  return await Movie.find({ title: query });
+  const regex = new RegExp('.*' + escapeRegex(query) + '.*', 'i');
+  return await Movie.find({ title: { $regex: regex } });
 };
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
 
 
 const getLastWatchedMovies = async (userId) => {
@@ -152,6 +158,5 @@ const getLastWatchedMovies = async (userId) => {
     .limit(20) // Limit to 20 movies
     .populate('category');
 };
-
 
 module.exports = { createMovie, getMovieById, getMovies, updateMovie, deleteMovie, searchMovies, getRecommendedMovies, addToRecommendedMovies, getLastWatchedMovies };

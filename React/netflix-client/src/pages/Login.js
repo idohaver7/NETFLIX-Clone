@@ -1,19 +1,29 @@
-import Header from "../components/HomePage/Header"
+import Header from "../components/Header"
 import Footer from "../components/HomePage/Footer"
-import { Link } from "react-router-dom"
-import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
 
 export default function Login() {
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassowrd] = useState('')
     const [error, setError] = useState('')
+    const [token, setToken] = useState(() => {
+        const token = localStorage.getItem('jwtToken')
+        return token
+    })
+
+    useEffect(() => {
+        navigate('/home')
+    }, [])
+    
 
     const handleChange = (event) => {
         const { name, value } = event.target
 
-        if (name == 'email')
+        if (name === 'email')
             setEmail(value)
-        else if (name == 'password')
+        else if (name === 'password')
             setPassowrd(value)
     }
 
@@ -30,8 +40,10 @@ export default function Login() {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.token)
+            if (data.token) {
                 localStorage.setItem('jwtToken', ('Bearer ' + data.token))
+                navigate('/home', { replace: true })
+            }
             else
                 setError('Server error, Please try again')
         })
@@ -46,7 +58,7 @@ export default function Login() {
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>
                         <input 
-                            type="email"
+                            type="text"
                             name="email"
                             onChange={handleChange}
                             value={email}
