@@ -52,6 +52,13 @@ export default function Header({showButtons, token }) {
         setSearchTerm(event.target.value);
     };
 
+    const toggleTheme = () => {
+        if (document.body.getAttribute('data-theme'))
+            document.body.removeAttribute('data-theme')
+        else
+            document.body.setAttribute('data-theme', 'light')
+    }
+
     if (loading)
         return <></>
         
@@ -94,6 +101,11 @@ export default function Header({showButtons, token }) {
                             }
                         </>
                     )}
+
+                    <label class="switch">
+                        <input type="checkbox" id="theme-switch" onChange={toggleTheme} />
+                        <span class="slider round"></span>
+                    </label>
                 </div>
             </div>
         </div>
