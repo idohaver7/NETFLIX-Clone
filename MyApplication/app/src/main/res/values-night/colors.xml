@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background_color">#000000</color> <!-- Black background for night mode -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="home_background_color">#000000</color>
+    <color name="text_color_button">#FFFFFF</color>
+    <color name="background_color">#DA000000</color>
+    <color name="playBtnInfo">#C2FFFFFF</color>
+    <color name="text_color">#FFFFFF</color>
+    <color name="playBtnText">#000000</color>
 </resources>

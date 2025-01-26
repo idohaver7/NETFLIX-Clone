@@ -12,34 +12,36 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class HomeActivity extends AppCompatActivity {
+import com.example.myapplication.databinding.ActivityHomeBinding;
 
+public class HomeActivity extends AppCompatActivity {
+    private ActivityHomeBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
+        binding= ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Switch nightModeSwitch = findViewById(R.id.night_switch);
-        nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+        binding.nightSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
-        Button signUpButton = findViewById(R.id.signUpBtn);
-        signUpButton.setOnClickListener(view -> {
+        binding.signUpBtn.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
-        Button signInButton = findViewById(R.id.signInBtn);
-        signInButton.setOnClickListener(view -> {
-            Intent intent = new Intent(HomeActivity.this, LogInActivity.class);
+        binding.signInBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, MovieInfoActivity.class);
             startActivity(intent);
         });
     }
