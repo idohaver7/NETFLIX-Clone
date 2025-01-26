@@ -16,4 +16,8 @@
     <string name="recommended_movies">Recommended Movies</string>
     <string name="_10_secondsbtn">+10 seconds</string>
     <string name="minus10_secondsbtn">-10 seconds</string>
+    <string name="back">back</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button_text">Log In</string>
 </resources>

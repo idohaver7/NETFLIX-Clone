@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.signInBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(HomeActivity.this, MovieInfoActivity.class);
+            Intent intent = new Intent(HomeActivity.this, LogInActivity.class);
             startActivity(intent);
         });
     }
