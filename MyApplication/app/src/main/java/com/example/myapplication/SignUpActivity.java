@@ -14,12 +14,21 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.api.RetrofitClient;
+import com.example.myapplication.api.WebServiceApi;
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private ImageView profileImageView;
     private Uri selectedImageUri;
+    private WebServiceApi api; // Retrofit API instance
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,9 @@ public class SignUpActivity extends AppCompatActivity {
         EditText ageEditText = findViewById(R.id.ageEditText);
         Button signUpButton = findViewById(R.id.signUpButton);
         ImageView backButton = findViewById(R.id.backButton);
+
+        // Initialize Retrofit API instance
+        api = RetrofitClient.getInstance().create(WebServiceApi.class);
 
         // Handle back button click
         backButton.setOnClickListener(view -> {
@@ -78,11 +90,37 @@ public class SignUpActivity extends AppCompatActivity {
 
             int age = Integer.parseInt(ageText);
 
-            // Simulate successful sign-up
-            Toast.makeText(SignUpActivity.this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
+            // Call API to create user
+            createUser(name, email, password, age);
+        });
+    }
+
+    private void createUser(String name, String email, String password, int age) {
+        JsonObject user = new JsonObject();
+        user.addProperty("name", name);
+        user.addProperty("email", email);
+        user.addProperty("password", password);
+        user.addProperty("age", age);
+        user.addProperty("profilePicture", selectedImageUri != null ? selectedImageUri.toString() : "");
+
+        api.createUser(user).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(SignUpActivity.this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
+                    // Navigate to HomeActivity
+                    Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(SignUpActivity.this, "Sign-up failed: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(SignUpActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

@@ -133,7 +133,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
-
     <!-- Sign Up Button -->
     <Button
         android:id="@+id/signUpButton"

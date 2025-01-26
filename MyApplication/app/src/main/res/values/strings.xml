@@ -25,4 +25,5 @@
     <string name="name_hint">Name</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="choose_profile_picture">Press here to choose your profile picture</string>
+    <string name="membership_hint">Membership Type</string>
 </resources>
