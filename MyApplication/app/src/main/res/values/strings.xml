@@ -20,4 +20,9 @@
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login_button_text">Log In</string>
+    <string name="age_hint">Age</string>
+    <string name="sign_up_button_text">Sign Up</string>
+    <string name="name_hint">Name</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="choose_profile_picture">Press here to choose your profile picture</string>
 </resources>
