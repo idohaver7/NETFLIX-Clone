@@ -27,6 +27,14 @@ public interface WebServiceApi {
     @POST("api/tokens")
     Call<JsonObject> login(@Body JsonObject credentials);
 
+    // Create a new user
+    @POST("api/users")
+    Call<JsonObject> createUser(@Body JsonObject user);
+
+    // Get user by ID
+    @GET("api/users/{id}")
+    Call<JsonObject> getUser(@Path("id") String userId);
+
     //*Movies Routs*
 
     //Get Movies

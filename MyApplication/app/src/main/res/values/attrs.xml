@@ -3,4 +3,9 @@
         <attr name="fullscreenBackgroundColor" format="color" />
         <attr name="fullscreenTextColor" format="color" />
     </declare-styleable>
+    <!-- Custom attributes for EditText and other components -->
+    <attr name="editTextBackground" format="reference" />
+    <attr name="editTextTextColor" format="color" />
+    <attr name="editTextHintColor" format="color" />
+    <attr name="backArrowColor" format="color" />
 </resources>

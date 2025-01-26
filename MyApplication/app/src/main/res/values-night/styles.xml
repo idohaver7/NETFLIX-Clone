@@ -1,0 +1,14 @@
+<resources>
+    <!-- EditText Style -->
+    <style name="EditTextStyle" parent="Widget.Material3.TextInputEditText.FilledBox">
+        <item name="android:background">@drawable/edit_text_background_night</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorHint">#BBBBBB</item>
+    </style>
+
+    <!-- Button Style -->
+    <style name="ButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">#D50000</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+</resources>

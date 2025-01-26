@@ -2,7 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="editTextBackground">@drawable/edit_text_background_night</item>
+        <item name="editTextTextColor">#FFFFFF</item>
+        <item name="editTextHintColor">#BBBBBB</item>
+        <item name="backArrowColor">#FFFFFF</item>
     </style>
 
     <style name="ThemeOverlay.MyApplication.FullscreenContainer" parent="">
