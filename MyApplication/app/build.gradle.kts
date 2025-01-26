@@ -36,6 +36,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.retrofit)
+    implementation(libs.gsonConverter)
+    implementation(libs.okhttpLogging)
     implementation(libs.exoplayer.core)
     implementation(libs.exoplayer.ui)
     implementation(libs.appcompat)

@@ -10,6 +10,9 @@ activity = "1.10.0"
 constraintlayout = "2.2.0"
 roomCommon = "2.6.1"
 swiperefreshlayout = "1.1.0"
+retrofit = "2.9.0"
+gsonConverter = "2.9.0"
+okhttpLogging = "4.9.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -23,6 +26,9 @@ room-common = { group = "androidx.room", name = "room-common", version.ref = "ro
 swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 exoplayer-core = { module = "com.google.android.exoplayer:exoplayer-core", version.ref = "exoplayer" }
 exoplayer-ui = { module = "com.google.android.exoplayer:exoplayer-ui", version.ref = "exoplayer" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+gsonConverter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "gsonConverter" }
+okhttpLogging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpLogging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -5,7 +5,8 @@
     <color name="home_background_color">#FFFFFF</color>
     <color name="text_color_button">#FFFFFF</color>
     <color name="background_color">#FFFFFF</color>
-    <color name="playBtnInfo">#DA000000</color>
+    <color name="playBtnInfo">#BB000000</color>
+    <color name="playBtnText">#FFFFFF</color>
     <color name="text_color">#000000</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
