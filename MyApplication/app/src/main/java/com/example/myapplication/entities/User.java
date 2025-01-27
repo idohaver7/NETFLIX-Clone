@@ -1,15 +1,17 @@
 package com.example.myapplication.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class User {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @NonNull
     private String id;
     private String email;
     private String password;
@@ -17,7 +19,7 @@ public class User {
     private String name;
     private int age;
     private String membership;
-    List<String> watchedMovies;
+    private List<String> watchedMovies = new ArrayList<>();
 
     // Getters and Setters
     public String getId() {
