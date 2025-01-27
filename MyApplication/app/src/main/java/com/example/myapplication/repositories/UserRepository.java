@@ -3,70 +3,46 @@ package com.example.myapplication.repositories;
 import android.content.Context;
 
 import com.example.myapplication.api.RetrofitClient;
+import com.example.myapplication.api.UserApi;
 import com.example.myapplication.api.WebServiceApi;
 import com.example.myapplication.entities.User;
-import com.google.gson.JsonObject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class UserRepository {
 
-    private final WebServiceApi api;
+    private final UserApi userApi;
 
     public UserRepository(Context context) {
-        api = RetrofitClient.getInstance().create(WebServiceApi.class);
+        // Initialize the UserApi with WebServiceApi instance
+        WebServiceApi webServiceApi = RetrofitClient.getInstance().create(WebServiceApi.class);
+        userApi = new UserApi(webServiceApi);
     }
 
     // Login method
     public void login(String email, String password, LoginCallback callback) {
-        JsonObject credentials = new JsonObject();
-        credentials.addProperty("email", email);
-        credentials.addProperty("password", password);
-
-        api.login(credentials).enqueue(new Callback<JsonObject>() {
+        userApi.login(email, password, new UserApi.LoginCallback() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    User user = new User();
-                    user.setEmail(email);
-                    user.setId(response.body().get("id").getAsString());
-                    callback.onSuccess(user);
-                } else {
-                    callback.onError("Invalid credentials!");
-                }
+            public void onSuccess(User user) {
+                callback.onSuccess(user); // Pass the user object to the calling ViewModel
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onError("Network error: " + t.getMessage());
+            public void onError(String error) {
+                callback.onError(error); // Pass the error to the calling ViewModel
             }
         });
     }
 
     // Sign-up method
     public void createUser(String name, String email, String password, int age, String profilePicture, UserCallback callback) {
-        JsonObject user = new JsonObject();
-        user.addProperty("name", name);
-        user.addProperty("email", email);
-        user.addProperty("password", password);
-        user.addProperty("age", age);
-        user.addProperty("profilePicture", profilePicture);
-
-        api.createUser(user).enqueue(new Callback<JsonObject>() {
+        userApi.createUser(name, email, password, age, profilePicture, new UserApi.UserCallback() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess();
-                } else {
-                    callback.onError("Sign-up failed: " + response.code());
-                }
+            public void onSuccess() {
+                callback.onSuccess(); // Notify the ViewModel about successful sign-up
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onError("Network error: " + t.getMessage());
+            public void onError(String error) {
+                callback.onError(error); // Notify the ViewModel about the error
             }
         });
     }
