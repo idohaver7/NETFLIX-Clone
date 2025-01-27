@@ -13,6 +13,8 @@ swiperefreshlayout = "1.1.0"
 retrofit = "2.9.0"
 gsonConverter = "2.9.0"
 okhttpLogging = "4.9.0"
+roomRuntime = "2.6.1"
+roomCompiler = "2.6.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,6 +31,8 @@ exoplayer-ui = { module = "com.google.android.exoplayer:exoplayer-ui", version.r
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 gsonConverter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "gsonConverter" }
 okhttpLogging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpLogging" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

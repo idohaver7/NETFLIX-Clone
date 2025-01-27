@@ -8,18 +8,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.myapplication.api.RetrofitClient;
-import com.example.myapplication.api.WebServiceApi;
-import com.google.gson.JsonObject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.myapplication.viewModel.UserViewModel;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private WebServiceApi api; // Retrofit API instance
+    private UserViewModel userViewModel; // ViewModel instance
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,68 +27,42 @@ public class LogInActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.loginButton);
         ImageView backButton = findViewById(R.id.backButton);
 
-        // Initialize Retrofit API instance
-        api = RetrofitClient.getInstance().create(WebServiceApi.class);
+        // Initialize the ViewModel
+        userViewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication()))
+                .get(UserViewModel.class);
+
+        // Observe ViewModel for successful login
+        userViewModel.getLoggedInUser().observe(this, user -> {
+            if (user != null) {
+                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+
+                // Navigate to HomeActivity after successful login
+                Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        // Observe ViewModel for error messages
+        userViewModel.getErrorMessage().observe(this, errorMessage -> {
+            if (errorMessage != null && !errorMessage.isEmpty()) {
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Handle login button click
-        loginButton.setOnClickListener(view -> {
+        loginButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LogInActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
-                loginUser(email, password);
+                userViewModel.login(email, password); // Call ViewModel to handle login
             }
         });
 
         // Handle back button click
-        backButton.setOnClickListener(view -> {
-            Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        });
-    }
-
-    private void loginUser(String email, String password) {
-        // Create JSON object for credentials
-        JsonObject credentials = new JsonObject();
-        credentials.addProperty("email", email);
-        credentials.addProperty("password", password);
-
-        // Call the login API
-        api.login(credentials).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                System.out.println("Response code: " + response.code());
-                if (response.isSuccessful() && response.body() != null) {
-                    String token = response.body().get("token").getAsString();
-                    System.out.println("Login successful, Token: " + token);
-
-                    // Save token for future use
-                    getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                            .edit()
-                            .putString("token", token)
-                            .apply();
-
-                    // Navigate to HomeActivity
-                    Toast.makeText(LogInActivity.this, "you have logged in successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (response.code() == 400) {
-                    Toast.makeText(LogInActivity.this, "Email or Password are incorrect, please try again", Toast.LENGTH_SHORT).show();
-                } else {
-                    System.out.println("Error Response: " + response.errorBody());
-                    Toast.makeText(LogInActivity.this, "Unexpected error occurred!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                System.out.println("Network error: " + t.getMessage());
-                Toast.makeText(LogInActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        backButton.setOnClickListener(v -> finish());
     }
 }

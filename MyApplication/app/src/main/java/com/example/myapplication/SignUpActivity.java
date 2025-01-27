@@ -13,22 +13,17 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.myapplication.api.RetrofitClient;
-import com.example.myapplication.api.WebServiceApi;
-import com.google.gson.JsonObject;
+import com.example.myapplication.viewModel.UserViewModel;
 
 import java.io.IOException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private ImageView profileImageView;
     private Uri selectedImageUri;
-    private WebServiceApi api; // Retrofit API instance
+    private UserViewModel userViewModel; // ViewModel instance
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +39,24 @@ public class SignUpActivity extends AppCompatActivity {
         Button signUpButton = findViewById(R.id.signUpButton);
         ImageView backButton = findViewById(R.id.backButton);
 
-        // Initialize Retrofit API instance
-        api = RetrofitClient.getInstance().create(WebServiceApi.class);
+        // Initialize ViewModel
+        userViewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication()))
+                .get(UserViewModel.class);
 
-        // Handle back button click
-        backButton.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
+        // Observe LiveData from ViewModel
+        userViewModel.getSignUpSuccess().observe(this, success -> {
+            if (success) {
+                Toast.makeText(this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        userViewModel.getErrorMessage().observe(this, error -> {
+            if (error != null) {
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Handle profile picture selection
@@ -76,6 +81,13 @@ public class SignUpActivity extends AppCompatActivity {
             imagePickerLauncher.launch(intent);
         });
 
+        // Handle back button click
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
         // Handle sign-up button click
         signUpButton.setOnClickListener(view -> {
             String name = nameEditText.getText().toString().trim();
@@ -90,37 +102,8 @@ public class SignUpActivity extends AppCompatActivity {
 
             int age = Integer.parseInt(ageText);
 
-            // Call API to create user
-            createUser(name, email, password, age);
-        });
-    }
-
-    private void createUser(String name, String email, String password, int age) {
-        JsonObject user = new JsonObject();
-        user.addProperty("name", name);
-        user.addProperty("email", email);
-        user.addProperty("password", password);
-        user.addProperty("age", age);
-        user.addProperty("profilePicture", selectedImageUri != null ? selectedImageUri.toString() : "");
-
-        api.createUser(user).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(SignUpActivity.this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
-                    // Navigate to HomeActivity
-                    Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(SignUpActivity.this, "Sign-up failed: " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(SignUpActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            // Pass data to ViewModel for API call
+            userViewModel.signUpUser(name, email, password, age, selectedImageUri != null ? selectedImageUri.toString() : "");
         });
     }
 }
