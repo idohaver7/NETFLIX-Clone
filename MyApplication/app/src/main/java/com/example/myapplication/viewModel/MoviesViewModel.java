@@ -2,7 +2,7 @@ package com.example.myapplication.viewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.myapplication.entities.Movie;
+//import com.example.myapplication.entities.Movie;
 
 import java.util.List;
 
