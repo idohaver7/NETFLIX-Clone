@@ -39,11 +39,11 @@ public interface WebServiceApi {
 
     //Get Movies
     @GET("api/movies")
-    Call<List<Movie>> getAllMovies(@Header("Authorization") String token);
+    Call<List<Movie>> getMoviesByCategory(@Header("Authorization") String token);
 
     //Add Movie by manager
     @POST("api/movies")
-    Call<JsonObject> createMovie(@Header("Authorization") String token, @Body Movie Movie);
+    Call<JsonObject> createMovie(@Header("Authorization") String token, @Body JsonObject movie);
 
     //Get Movie by ID
     @GET("api/movies/{id}")
@@ -51,7 +51,7 @@ public interface WebServiceApi {
 
     //Edit Movie
     @PUT("api/movies/{id}")
-    Call<JsonObject> editMovie(@Path("id") String MovieId, @Header("Authorization") String token, @Body Movie movie);
+    Call<JsonObject> editMovie(@Path("id") String MovieId, @Header("Authorization") String token, @Body JsonObject movie);
 
     //Delete Movie
     @DELETE("api/movies/{id}")
@@ -63,7 +63,15 @@ public interface WebServiceApi {
 
     //Add Movie to watched by of the user
     @POST("api/movies/{id}/recommend")
-    Call<List<Movie>> addToWatchedBy(@Path("id") String MovieId, @Header("Authorization") String token);
+    Call<Void> addToWatchedBy(@Path("id") String MovieId, @Header("Authorization") String token);
+    //Get all movies
+    @GET("api/all/movies")
+    Call<List<Movie>> getAllMovies(@Header("Authorization") String token);
+
+
+
+
+
 
 
 

@@ -4,8 +4,8 @@ import androidx.room.PrimaryKey;
 import com.example.myapplication.R;
 
 @Entity
-public class Movie {
-    @PrimaryKey(autoGenerate = true)
+public class Movie  {
+    @PrimaryKey
     private int id;
     private int pic;
 

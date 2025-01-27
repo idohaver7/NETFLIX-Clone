@@ -26,4 +26,6 @@
     <string name="profile_picture">Profile Picture</string>
     <string name="choose_profile_picture">Press here to choose your profile picture</string>
     <string name="membership_hint">Membership Type</string>
+    <string name="baseUrl">\"http://10.0.2.2:8080/\"</string>
+    <string name="Authorization">\"Authorization\"</string>
 </resources>

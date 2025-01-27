@@ -13,12 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.adapters.MoviesListAdapter;
-import com.example.myapplication.databinding.ActivityHomeBinding;
 import com.example.myapplication.databinding.ActivityMovieInfoBinding;
-import com.example.myapplication.entities.Movie;
 
-import java.util.ArrayList;
-import java.util.List;
+
+
 
 public class MovieInfoActivity extends AppCompatActivity {
     private ActivityMovieInfoBinding binding;
@@ -42,20 +40,8 @@ public class MovieInfoActivity extends AppCompatActivity {
         RecyclerView lstMovies=binding.lstRecommendedMovies;
         lstMovies.setAdapter(adapter);
         lstMovies.setLayoutManager(new GridLayoutManager(this,3));
-        List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(R.drawable.avatar));
-        movies.add(new Movie(R.drawable.f1));
-        movies.add(new Movie(R.drawable.avatar));
-        movies.add(new Movie(R.drawable.howtotrainyourdragon));
-        movies.add(new Movie(R.drawable.jamie_bond));
-        movies.add(new Movie(R.drawable.lilostitch));
-        movies.add(new Movie(R.drawable.avatar));
-        movies.add(new Movie(R.drawable.f1));
-        movies.add(new Movie(R.drawable.avatar));
-        movies.add(new Movie(R.drawable.howtotrainyourdragon));
-        movies.add(new Movie(R.drawable.jamie_bond));
-        movies.add(new Movie(R.drawable.lilostitch));
-        adapter.setMovies(movies);
+
+
 
     }
 }

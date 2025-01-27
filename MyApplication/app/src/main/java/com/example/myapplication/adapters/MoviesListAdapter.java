@@ -1,14 +1,15 @@
 package com.example.myapplication.adapters;
 
 import android.content.Context;
-import android.content.Intent;
+
+
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.myapplication.MovieInfoActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.Movie;
@@ -44,7 +45,7 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         if (movies != null) {
             final Movie current = movies.get(position);
-            holder.ivPic.setImageResource(current.getPic());
+            holder.ivPic.setImageResource(current.getImage());
         }
 
     }
@@ -70,14 +71,14 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
     }
 
     //Finds the ID of a video in the list by its position.
-    public int getById(int id) {
-        for (Movie m : movies) {
-            if (m.getId() == id) {
-                return m.getId();
-            }
-        }
-        return -1;
-    }
+//    public String getById(String id) {
+//        for (Movie movies : movies) {
+//            if (movies.== id) {
+//                return m.getId();
+//            }
+//        }
+//        return null;
+//    }
 
 }
 
