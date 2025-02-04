@@ -61,6 +61,13 @@ public class AfterLogInActivity extends AppCompatActivity {
 
         // Handle Cancel Click
         cancelText.setOnClickListener(view -> hideSignOutMenu());
+
+        ImageView searchIcon = findViewById(R.id.searchIcon);
+        searchIcon.setOnClickListener(view -> {
+            Intent intent = new Intent(AfterLogInActivity.this, SearchMovieActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     private void toggleSignOutMenu() {
