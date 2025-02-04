@@ -1,3 +1,4 @@
+/*
 package com.example.myapplication;
 
 import android.content.Intent;
@@ -44,4 +45,4 @@ public class MovieInfoActivity extends AppCompatActivity {
 
 
     }
-}
+}*/

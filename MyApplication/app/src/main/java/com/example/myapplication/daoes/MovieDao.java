@@ -13,10 +13,10 @@ import java.util.List;
 
 @Dao
 public interface MovieDao {
-    @Query("SELECT * FROM Movie")
+    @Query("SELECT * FROM movies")
     List<Movie> index();
 
-    @Query("SELECT * FROM movie WHERE id = :id")
+    @Query("SELECT * FROM movies WHERE id = :id")
     Movie getMovie(String id);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Movie... videoItems);
@@ -29,9 +29,7 @@ public interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertVideos(Movie... videoItems);
-    @Query("DELETE FROM MOVIE")
+    @Query("DELETE FROM movies")
     void clearTable();
-
-}
 
 }

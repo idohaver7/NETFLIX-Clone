@@ -6,6 +6,8 @@
         <item name="editTextTextColor">#000000</item>
         <item name="editTextHintColor">#888888</item>
         <item name="backArrowColor">#000000</item>
+        <item name="android:windowBackground">#FFFFFF</item>
+        <item name="colorOnBackground">#000000</item>
     </style>
 
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />

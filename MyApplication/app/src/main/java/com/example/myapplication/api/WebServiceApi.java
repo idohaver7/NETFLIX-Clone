@@ -4,6 +4,7 @@ import com.example.myapplication.entities.Movie;
 import com.google.gson.JsonObject;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -35,11 +36,14 @@ public interface WebServiceApi {
     @GET("api/users/{id}")
     Call<JsonObject> getUser(@Path("id") String userId);
 
+    @GET("user/me")
+    Call<JsonObject> getUserDetails(@Header("Authorization") String token);
+
     //*Movies Routs*
 
     //Get Movies
     @GET("api/movies")
-    Call<List<Movie>> getMoviesByCategory(@Header("Authorization") String token);
+    Call<Map<String, List<Movie>>> getMoviesByCategory(@Header("Authorization") String token);
 
     //Add Movie by manager
     @POST("api/movies")
@@ -67,15 +71,4 @@ public interface WebServiceApi {
     //Get all movies
     @GET("api/all/movies")
     Call<List<Movie>> getAllMovies(@Header("Authorization") String token);
-
-
-
-
-
-
-
-
-
-
-
 }
