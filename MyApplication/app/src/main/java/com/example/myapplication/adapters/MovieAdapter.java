@@ -1,6 +1,8 @@
 package com.example.myapplication.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.myapplication.MovieDetailsActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.Movie;
 import java.util.List;
@@ -43,6 +46,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                             .error(R.drawable.placeholder_movie)
                             .transform(new RoundedCorners(20)))
                     .into(holder.movieImage);
+
+            // Handle click to open MovieDetailsActivity
+            holder.itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(context, MovieDetailsActivity.class);
+                intent.putExtra("movie", current);
+                context.startActivity(intent);
+                Log.d("MOVIE_CLICK", "Movie clicked: " + movies.get(position).getTitle());
+            });
         }
     }
 
