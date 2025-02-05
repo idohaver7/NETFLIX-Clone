@@ -1,11 +1,15 @@
 package com.example.myapplication.repositories;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.api.UserApi;
 import com.example.myapplication.api.WebServiceApi;
 import com.example.myapplication.entities.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserRepository {
 
@@ -17,46 +21,44 @@ public class UserRepository {
         userApi = new UserApi(webServiceApi);
     }
 
-    // Login method
     public void login(String email, String password, LoginCallback callback) {
         userApi.login(email, password, new UserApi.LoginCallback() {
             @Override
             public void onSuccess(User user) {
-                callback.onSuccess(user); // Pass the user object to the calling ViewModel
+                callback.onSuccess(user);
             }
 
             @Override
             public void onError(String error) {
-                callback.onError(error); // Pass the error to the calling ViewModel
+                callback.onError(error);
             }
         });
     }
 
-    // Sign-up method
     public void createUser(String name, String email, String password, int age, String profilePicture, UserCallback callback) {
         userApi.createUser(name, email, password, age, profilePicture, new UserApi.UserCallback() {
             @Override
-            public void onSuccess() {
-                callback.onSuccess(); // Notify the ViewModel about successful sign-up
+            public void onSuccess(User user) {
+                callback.onSuccess(null);
             }
 
             @Override
             public void onError(String error) {
-                callback.onError(error); // Notify the ViewModel about the error
+                callback.onError(error);
             }
         });
     }
+
+
 
     // Callbacks for Login and Sign-up
     public interface LoginCallback {
         void onSuccess(User user);
-
         void onError(String error);
     }
 
     public interface UserCallback {
-        void onSuccess();
-
+        void onSuccess(User user);
         void onError(String error);
     }
 }

@@ -45,11 +45,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Observe LiveData from ViewModel
         userViewModel.getSignUpSuccess().observe(this, success -> {
-            if (success) {
+            if (Boolean.TRUE.equals(success)) { // ✅ Ensure Boolean check
                 Toast.makeText(this, "Sign-up successful!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                finish(); // ✅ Close sign-up screen
             }
         });
 

@@ -1,35 +1,58 @@
 package com.example.myapplication.entities;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-import com.example.myapplication.R;
 
-@Entity
-public class Movie  {
-    @PrimaryKey
-    private int id;
-    private int pic;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    public Movie() {
-        this.pic = R.drawable.avatar;
+public class Movie implements Parcelable {
+    private String _id;
+    private String title;
+    private String image;
+    private String description;
+
+    // Constructor
+    public Movie(String _id, String title, String image, String description) {
+        this._id = _id;
+        this.title = title;
+        this.image = image;
+        this.description = description;
     }
 
-    public Movie(int pic) {
-        this.pic = pic;
+    // Getters
+    public String getId() { return _id; }
+    public String getTitle() { return title; }
+    public String getImage() { return image; }
+    public String getDescription() { return description; }
+
+
+    protected Movie(Parcel in) {
+        _id = in.readString();
+        title = in.readString();
+        image = in.readString();
+        description = in.readString();
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
+        dest.writeString(title);
+        dest.writeString(image);
+        dest.writeString(description);
     }
 
-    public int getPic() {
-        return pic;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
 
-    public void setPic(int pic) {
-        this.pic = pic;
-    }
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }

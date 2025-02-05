@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Background color (light gray) -->
+    <solid android:color="#CCCCCC"/>
+
+    <!-- Border -->
+    <stroke android:width="2dp" android:color="#999999"/>
+
+    <!-- Corners rounded -->
+    <corners android:radius="8dp"/>
+
+    <!-- Placeholder Size -->
+    <size android:width="120dp" android:height="180dp"/>
+</shape>

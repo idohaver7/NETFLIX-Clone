@@ -1,3 +1,4 @@
+/*
 package com.example.myapplication.adapters;
 
 import android.content.Context;
@@ -83,3 +84,4 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Mo
 }
 
 
+*/

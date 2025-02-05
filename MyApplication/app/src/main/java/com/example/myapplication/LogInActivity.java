@@ -2,14 +2,13 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.myapplication.viewModel.UserViewModel;
 
 public class LogInActivity extends AppCompatActivity {
@@ -19,7 +18,11 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in);
+        setContentView(R.layout.activity_log_in); // ✅ Always show login screen
+
+        // Initialize ViewModel
+        userViewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication()))
+                .get(UserViewModel.class);
 
         // Initialize UI elements
         EditText emailEditText = findViewById(R.id.emailEditText);
@@ -27,19 +30,12 @@ public class LogInActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.loginButton);
         ImageView backButton = findViewById(R.id.backButton);
 
-        // Initialize the ViewModel
-        userViewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication()))
-                .get(UserViewModel.class);
-
         // Observe ViewModel for successful login
         userViewModel.getLoggedInUser().observe(this, user -> {
-            if (user != null) {
+            if (user != null && user.getToken() != null) {
+                saveAuthToken(user.getToken()); // ✅ Store token for API calls but not auto-login
                 Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
-
-                // Navigate to HomeActivity after successful login
-                Intent intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                navigateToHome();
             }
         });
 
@@ -50,7 +46,7 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-        // Handle login button click
+        // ✅ Handle login button click
         loginButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -58,11 +54,26 @@ public class LogInActivity extends AppCompatActivity {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
-                userViewModel.login(email, password); // Call ViewModel to handle login
+                userViewModel.login(email, password); // ✅ Login always requires input
             }
         });
 
-        // Handle back button click
+        // ✅ Handle back button click
         backButton.setOnClickListener(v -> finish());
+    }
+
+    // ✅ Save token for API calls (but do not use for auto-login)
+    private void saveAuthToken(String token) {
+        getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                .edit()
+                .putString("auth_token", token)
+                .apply();
+    }
+
+    // ✅ Navigate to AfterLogInActivity after login
+    private void navigateToHome() {
+        Intent intent = new Intent(LogInActivity.this, AfterLogInActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
