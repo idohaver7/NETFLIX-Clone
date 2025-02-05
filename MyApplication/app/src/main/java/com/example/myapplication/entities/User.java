@@ -20,13 +20,14 @@ public class User {
     private int age;
     private String membership;
     private List<String> watchedMovies = new ArrayList<>();
-    private String token; // ✅ Add the token field
+    private String token;
+    private boolean isManager;
 
     public User() {
     }
 
     // ✅ Main constructor used by Room
-    public User(@NonNull String id, String email, String password, String profilePicture, String name, int age, String membership, List<String> watchedMovies, String token) {
+    public User(@NonNull String id, String email, String password, String profilePicture, String name, int age, String membership, List<String> watchedMovies, String token, boolean isManager) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -36,6 +37,7 @@ public class User {
         this.membership = membership;
         this.watchedMovies = watchedMovies;
         this.token = token;
+        this.isManager = isManager;
     }
 
     // ✅ Tell Room to ignore this constructor
@@ -71,4 +73,7 @@ public class User {
 
     public String getToken() { return token; }
     public void setToken(String token) { this.token = token; }
+
+    public boolean isManager() { return isManager; }  // New getter
+    public void setManager(boolean manager) { isManager = manager; }  // New setter
 }

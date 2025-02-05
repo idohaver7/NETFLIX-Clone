@@ -16,20 +16,23 @@ public class UserRepository {
     private final UserApi userApi;
 
     public UserRepository(Context context) {
-        // Initialize the UserApi with WebServiceApi instance
         WebServiceApi webServiceApi = RetrofitClient.getInstance().create(WebServiceApi.class);
         userApi = new UserApi(webServiceApi);
     }
 
     public void login(String email, String password, LoginCallback callback) {
+        Log.d("USER_REPO", "Sending login request for email: " + email);
+
         userApi.login(email, password, new UserApi.LoginCallback() {
             @Override
-            public void onSuccess(User user) {
-                callback.onSuccess(user);
+            public void onSuccess(String token) {
+                Log.d("USER_REPO", "Login successful! Token received.");
+                callback.onSuccess(token); // ✅ Pass only the token
             }
 
             @Override
             public void onError(String error) {
+                Log.e("USER_REPO", "Login error: " + error);
                 callback.onError(error);
             }
         });
@@ -49,11 +52,29 @@ public class UserRepository {
         });
     }
 
+    public void getUserDetails(String token, UserCallback callback) {
+        Log.d("USER_REPO", "Fetching user details with token.");
+
+        userApi.getUserDetails(token, new UserApi.UserDetailsCallback() {
+            @Override
+            public void onSuccess(User user) {
+                Log.d("USER_REPO", "User details received: " + user.getName() + " | Manager: " + user.isManager());
+                callback.onSuccess(user); // ✅ Pass full user details
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("USER_REPO", "Failed to fetch user details: " + error);
+                callback.onError(error);
+            }
+        });
+    }
+
 
 
     // Callbacks for Login and Sign-up
     public interface LoginCallback {
-        void onSuccess(User user);
+        void onSuccess(String token);
         void onError(String error);
     }
 

@@ -36,7 +36,7 @@ public interface WebServiceApi {
     @GET("api/users/{id}")
     Call<JsonObject> getUser(@Path("id") String userId);
 
-    @GET("user/me")
+    @GET("api/users")
     Call<JsonObject> getUserDetails(@Header("Authorization") String token);
 
     //*Movies Routs*

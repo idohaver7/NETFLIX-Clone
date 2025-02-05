@@ -3,17 +3,19 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.adapters.CategoryAdapter;
+import com.example.myapplication.manager.ManagementActivity;
 import com.example.myapplication.viewModel.MovieViewModel;
 
 public class AfterLogInActivity extends AppCompatActivity {
@@ -21,7 +23,7 @@ public class AfterLogInActivity extends AppCompatActivity {
     private CategoryAdapter categoryAdapter;
     private MovieViewModel movieViewModel;
     private ImageView darkModeToggle, profileIcon;
-    private TextView signOutText, cancelText;
+    private TextView signOutText, cancelText, managementOption;
     private View signOutMenu;
 
     @Override
@@ -48,9 +50,13 @@ public class AfterLogInActivity extends AppCompatActivity {
         signOutText = findViewById(R.id.signOutText);
         cancelText = findViewById(R.id.cancelText);
         signOutMenu = findViewById(R.id.signOutMenu);
+        managementOption = findViewById(R.id.managementOption);
+
+        // Check if the user is a manager
+        checkIfManager();
 
         // Initialize Dark Mode Toggle
-        updateDarkModeIcon();  // ✅ Now this method is included!
+        updateDarkModeIcon();
         darkModeToggle.setOnClickListener(view -> toggleDarkMode());
 
         // Handle Profile Icon Click (Show Sign-Out Menu)
@@ -62,12 +68,40 @@ public class AfterLogInActivity extends AppCompatActivity {
         // Handle Cancel Click
         cancelText.setOnClickListener(view -> hideSignOutMenu());
 
+        // Handle Management Click
+        managementOption.setOnClickListener(view -> openManagementPage());
+
         ImageView searchIcon = findViewById(R.id.searchIcon);
         searchIcon.setOnClickListener(view -> {
             Intent intent = new Intent(AfterLogInActivity.this, SearchMovieActivity.class);
             startActivity(intent);
         });
 
+    }
+
+    private void checkIfManager() {
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        boolean isManager = prefs.getBoolean("is_manager", false);
+
+        Log.d("MANAGER_CHECK", "User is manager: " + isManager);
+
+        if (isManager) {
+            managementOption.setVisibility(View.VISIBLE);
+        } else {
+            managementOption.setVisibility(View.GONE);
+        }
+    }
+
+    private void openManagementPage() {
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        boolean isManager = prefs.getBoolean("is_manager", false);
+
+        if (isManager) {
+            Intent intent = new Intent(this, ManagementActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Only managers can enter!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void toggleSignOutMenu() {
@@ -79,7 +113,7 @@ public class AfterLogInActivity extends AppCompatActivity {
             int y = location[1];  // Y position
 
             // Move signOutMenu below profileIcon dynamically and shift it to the left
-            signOutMenu.setX(x - 120);  // ✅ Shift to the left
+            signOutMenu.setX(x - 190);  // ✅ Shift to the left
             signOutMenu.setY(y + profileIcon.getHeight() - 10);  // Position below
 
             signOutMenu.setVisibility(View.VISIBLE);
