@@ -35,9 +35,6 @@
             android:exported="false"
             android:screenOrientation="sensor" />
         <activity
-            android:name=".MovieInfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
