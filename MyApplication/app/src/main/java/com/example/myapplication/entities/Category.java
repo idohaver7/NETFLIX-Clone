@@ -3,7 +3,14 @@ package com.example.myapplication.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Category implements Parcelable {
+    @PrimaryKey
+    @NonNull
     private String id;
     private String name;
     private boolean promoted;
@@ -19,6 +26,11 @@ public class Category implements Parcelable {
     public String getId() { return id; }
     public String getName() { return name; }
     public boolean isPromoted() { return promoted; }
+
+    // Setters
+    public void setId(String id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setPromoted(boolean promoted) { this.promoted = promoted; }
 
     // Parcelable Implementation
     protected Category(Parcel in) {

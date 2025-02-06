@@ -16,7 +16,7 @@ public interface MovieDao {
     @Query("SELECT * FROM movies")
     List<Movie> index();
 
-    @Query("SELECT * FROM movies WHERE id = :id")
+    @Query("SELECT * FROM movies WHERE _id = :id")
     Movie getMovie(String id);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Movie... videoItems);
@@ -27,8 +27,6 @@ public interface MovieDao {
     @Delete
     void delete(Movie... videos);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertVideos(Movie... videoItems);
     @Query("DELETE FROM movies")
     void clearTable();
 

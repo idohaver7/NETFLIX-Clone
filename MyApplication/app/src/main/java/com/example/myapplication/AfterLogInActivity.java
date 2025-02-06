@@ -109,12 +109,11 @@ public class AfterLogInActivity extends AppCompatActivity {
             // Get profile icon screen position
             int[] location = new int[2];
             profileIcon.getLocationOnScreen(location);
-            int x = location[0];  // X position
-            int y = location[1];  // Y position
+            int x = location[0];
+            int y = location[1];
 
-            // Move signOutMenu below profileIcon dynamically and shift it to the left
-            signOutMenu.setX(x - 190);  // ✅ Shift to the left
-            signOutMenu.setY(y + profileIcon.getHeight() - 10);  // Position below
+            signOutMenu.setX(x - 190);
+            signOutMenu.setY(y + profileIcon.getHeight() - 10);
 
             signOutMenu.setVisibility(View.VISIBLE);
             signOutMenu.setAlpha(0f);
@@ -129,7 +128,6 @@ public class AfterLogInActivity extends AppCompatActivity {
                 .withEndAction(() -> signOutMenu.setVisibility(View.INVISIBLE));
     }
 
-    // ✅ Toggle Dark Mode
     private void toggleDarkMode() {
         SharedPreferences prefs = getSharedPreferences("AppSettings", MODE_PRIVATE);
         boolean isDarkMode = prefs.getBoolean("DarkMode", false);
@@ -148,7 +146,6 @@ public class AfterLogInActivity extends AppCompatActivity {
         updateDarkModeIcon();
     }
 
-    // ✅ Update the Dark Mode Toggle Icon
     private void updateDarkModeIcon() {
         SharedPreferences prefs = getSharedPreferences("AppSettings", MODE_PRIVATE);
         boolean isDarkMode = prefs.getBoolean("DarkMode", false);
@@ -160,7 +157,6 @@ public class AfterLogInActivity extends AppCompatActivity {
         }
     }
 
-    // ✅ Sign Out User
     private void signOutUser() {
         SharedPreferences prefs = getSharedPreferences("AppSettings", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class UserApi {
-    private final WebServiceApi api;
+    private final WebServiceApi webServiceApi;
+    private final Retrofit retrofit;
 
-    public UserApi(WebServiceApi api) {
-        this.api = api;
+    public UserApi() {
+        this.retrofit = RetrofitClient.getInstance();
+        this.webServiceApi = retrofit.create(WebServiceApi.class);
     }
 
     public void login(String email, String password, LoginCallback callback) {
@@ -22,7 +25,7 @@ public class UserApi {
         credentials.addProperty("email", email);
         credentials.addProperty("password", password);
 
-        api.login(credentials).enqueue(new Callback<JsonObject>() {
+        webServiceApi.login(credentials).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -46,13 +49,12 @@ public class UserApi {
     public void getUserDetails(String token, UserDetailsCallback callback) {
         Log.d("USER_API", "Fetching user details...");
 
-        api.getUserDetails("Bearer " + token).enqueue(new Callback<JsonObject>() {
+        webServiceApi.getUserDetails("Bearer " + token).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     JsonObject jsonResponse = response.body();
 
-                    // ✅ Convert JSON response into a User object
                     User user = new User(
                             jsonResponse.get("_id").getAsString(),
                             jsonResponse.get("email").getAsString(),
@@ -96,7 +98,7 @@ public class UserApi {
         user.addProperty("age", age);
         user.addProperty("profilePicture", profilePicture);
 
-        api.createUser(user).enqueue(new Callback<JsonObject>() {
+        webServiceApi.createUser(user).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {

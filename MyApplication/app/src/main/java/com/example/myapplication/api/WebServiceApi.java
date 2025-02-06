@@ -1,5 +1,6 @@
 package com.example.myapplication.api;
 
+import com.example.myapplication.entities.Category;
 import com.example.myapplication.entities.Movie;
 import com.google.gson.JsonObject;
 
@@ -71,4 +72,22 @@ public interface WebServiceApi {
     //Get all movies
     @GET("api/all/movies")
     Call<List<Movie>> getAllMovies(@Header("Authorization") String token);
+
+    //*Category Routs*//
+
+    //get all categories
+    @GET("api/categories")
+    Call<List<Category>> getAllCategories(@Header("Authorization") String token);
+    //create categories
+    @POST("api/categories")
+    Call<JsonObject> createCategory(@Header("Authorization") String token,@Body JsonObject category);
+    //get categoryById
+    @GET("api/categories/{id}")
+    Call<Category> getCategoryById(@Header("Authorization") String token,@Path("id") String id);
+    //update categoryById
+    @PATCH("api/categories/{id}")
+    Call<JsonObject> updateCategoryById(@Header("Authorization") String token,@Path("id") String id,@Body JsonObject category);
+    //delete categoryById
+    @DELETE("api/categories/{id}")
+    Call<JsonObject> deleteCategoryById(@Header("Authorization") String token,@Path("id") String id);
 }

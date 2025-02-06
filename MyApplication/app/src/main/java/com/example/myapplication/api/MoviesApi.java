@@ -11,16 +11,19 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MoviesApi {
-    private final WebServiceApi api;
+    private final WebServiceApi webServiceApi;
+    private final Retrofit retrofit;
 
-    public MoviesApi(WebServiceApi api) {
-        this.api = api;
+    public MoviesApi() {
+        this.retrofit = RetrofitClient.getInstance();
+        this.webServiceApi = retrofit.create(WebServiceApi.class);
     }
 
     public void getMovies(String token, MovieCallback callback) {
-        api.getMoviesByCategory("Bearer " + token).enqueue(new Callback<Map<String, List<Movie>>>() {
+        webServiceApi.getMoviesByCategory("Bearer " + token).enqueue(new Callback<Map<String, List<Movie>>>() {
             @Override
             public void onResponse(Call<Map<String, List<Movie>>> call, Response<Map<String, List<Movie>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -45,9 +48,8 @@ public class MoviesApi {
 
 
 
-    // ✅ Add Movie
     public void createMovie(String token, JsonObject movie, MovieActionCallback callback) {
-        api.createMovie("Bearer " + token, movie).enqueue(new Callback<JsonObject>() {
+        webServiceApi.createMovie("Bearer " + token, movie).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
@@ -67,7 +69,6 @@ public class MoviesApi {
         });
     }
 
-    // ✅ Callbacks for API Responses
     public interface MovieCallback {
         void onSuccess(Map<String, List<Movie>> moviesByCategory);  // Expect Map<String, List<Movie>>
         void onError(String error);
