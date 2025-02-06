@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import android.content.Context;
 
+import com.example.myapplication.converters.Converters;
 import com.example.myapplication.daoes.UserDao;
 import com.example.myapplication.entities.User;
 

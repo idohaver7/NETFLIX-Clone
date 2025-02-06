@@ -3,15 +3,21 @@ package com.example.myapplication.api;
 import android.util.Log;
 import com.example.myapplication.entities.User;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class UserApi {
-    private final WebServiceApi api;
+    private final WebServiceApi webServiceApi;
+    private final Retrofit retrofit;
 
-    public UserApi(WebServiceApi api) {
-        this.api = api;
+    public UserApi() {
+        this.retrofit = RetrofitClient.getInstance();
+        this.webServiceApi = retrofit.create(WebServiceApi.class);
     }
 
     public void login(String email, String password, LoginCallback callback) {
@@ -19,85 +25,71 @@ public class UserApi {
         credentials.addProperty("email", email);
         credentials.addProperty("password", password);
 
-        api.login(credentials).enqueue(new Callback<JsonObject>() {
+        webServiceApi.login(credentials).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    try {
-                        JsonObject jsonResponse = response.body();
-                        Log.d("API_RESPONSE", "Login Response: " + jsonResponse.toString());
-
-
-                        String token = jsonResponse.has("token") ? jsonResponse.get("token").getAsString() : "";
-
-                        if (!token.isEmpty()) {
-                            User user = new User();
-                            user.setToken(token);
-
-                            callback.onSuccess(user);
-                        } else {
-                            callback.onError("Token not received!");
-                        }
-
-                    } catch (Exception e) {
-                        Log.e("API_ERROR", "Error parsing login response", e);
-                        callback.onError("Error parsing login response");
-                    }
+                    String token = response.body().get("token").getAsString();
+                    Log.d("USER_API", "Token received: " + token);
+                    callback.onSuccess(token);
                 } else {
-                    Log.e("API_ERROR", "Login failed: " + response.errorBody());
-                    callback.onError("Invalid credentials!");
+                    Log.e("USER_API", "Invalid credentials. Response Code: " + response.code());
+                    callback.onError("Invalid credentials.");
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e("API_ERROR", "Network error: " + t.getMessage());
+                Log.e("USER_API", "Network error during login: " + t.getMessage());
                 callback.onError("Network error: " + t.getMessage());
             }
         });
     }
 
-    // ✅ Fetch user details (New method)
-    public void fetchUserDetails(String token, UserCallback callback) {
-        api.getUserDetails("Bearer " + token).enqueue(new Callback<JsonObject>() {
+    public void getUserDetails(String token, UserDetailsCallback callback) {
+        Log.d("USER_API", "Fetching user details...");
+
+        webServiceApi.getUserDetails("Bearer " + token).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    try {
-                        JsonObject jsonResponse = response.body();
-                        Log.d("API_RESPONSE", "User Details: " + jsonResponse.toString());
+                    JsonObject jsonResponse = response.body();
 
-                        // ✅ Extract user details
-                        String userId = jsonResponse.has("id") ? jsonResponse.get("id").getAsString() : "";
-                        String email = jsonResponse.has("email") ? jsonResponse.get("email").getAsString() : "";
-                        String name = jsonResponse.has("name") ? jsonResponse.get("name").getAsString() : "";
-                        String profilePicture = jsonResponse.has("profilePicture") ? jsonResponse.get("profilePicture").getAsString() : "";
-                        int age = jsonResponse.has("age") ? jsonResponse.get("age").getAsInt() : 0;
-                        String membership = jsonResponse.has("membership") ? jsonResponse.get("membership").getAsString() : "Basic";
+                    User user = new User(
+                            jsonResponse.get("_id").getAsString(),
+                            jsonResponse.get("email").getAsString(),
+                            jsonResponse.get("password").getAsString(), // Might not be returned for security reasons
+                            jsonResponse.get("profilePicture").getAsString(),
+                            jsonResponse.get("name").getAsString(),
+                            jsonResponse.has("age") ? jsonResponse.get("age").getAsInt() : 0, // Default to 0 if not available
+                            jsonResponse.has("membership") ? jsonResponse.get("membership").getAsString() : "None", // Default if missing
+                            new ArrayList<>(), // Placeholder for watchedMovies (parse if needed)
+                            token, // Use the same token that was passed
+                            jsonResponse.get("isManager").getAsBoolean()
+                    );
 
-                        // ✅ Create User object with full details
-                        User user = new User(userId, email, "", profilePicture, name, age, membership, null, token);
-                        callback.onSuccess(user);
+                    Log.d("USER_API", "User data fetched successfully: " + user.getName() +
+                            " | Age: " + user.getAge() +
+                            " | Membership: " + user.getMembership() +
+                            " | IsManager: " + user.isManager());
 
-                    } catch (Exception e) {
-                        Log.e("API_ERROR", "Error parsing user details", e);
-                        callback.onError("Error parsing user details");
-                    }
+                    callback.onSuccess(user);
                 } else {
-                    Log.e("API_ERROR", "Fetching user details failed: " + response.errorBody());
-                    callback.onError("Could not fetch user details!");
+                    Log.e("USER_API", "Failed to fetch user details.");
+                    callback.onError("Failed to fetch user details.");
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e("API_ERROR", "Network error: " + t.getMessage());
+                Log.e("USER_API", "Network error fetching user details: " + t.getMessage());
                 callback.onError("Network error: " + t.getMessage());
             }
         });
     }
 
-    // ✅ Create user (Sign-up)
+
+
     public void createUser(String name, String email, String password, int age, String profilePicture, UserCallback callback) {
         JsonObject user = new JsonObject();
         user.addProperty("name", name);
@@ -106,7 +98,7 @@ public class UserApi {
         user.addProperty("age", age);
         user.addProperty("profilePicture", profilePicture);
 
-        api.createUser(user).enqueue(new Callback<JsonObject>() {
+        webServiceApi.createUser(user).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
@@ -126,15 +118,18 @@ public class UserApi {
         });
     }
 
-    // ✅ Login Callback Interface
     public interface LoginCallback {
-        void onSuccess(User user);
+        void onSuccess(String token);
         void onError(String error);
     }
 
-    // ✅ User Callback Interface (Handles both fetching user details & sign-up)
     public interface UserCallback {
         void onSuccess(User user); // User object may be null for sign-up
+        void onError(String error);
+    }
+
+    public interface UserDetailsCallback {
+        void onSuccess(User user);
         void onError(String error);
     }
 }

@@ -65,6 +65,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 //                });
 
                 // Fetch related movies
+
                 loadRelatedMovies(movie);
             }
         }

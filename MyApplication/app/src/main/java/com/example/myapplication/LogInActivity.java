@@ -18,7 +18,7 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in); // ✅ Always show login screen
+        setContentView(R.layout.activity_log_in);
 
         // Initialize ViewModel
         userViewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication()))
@@ -33,7 +33,7 @@ public class LogInActivity extends AppCompatActivity {
         // Observe ViewModel for successful login
         userViewModel.getLoggedInUser().observe(this, user -> {
             if (user != null && user.getToken() != null) {
-                saveAuthToken(user.getToken()); // ✅ Store token for API calls but not auto-login
+                saveAuthToken(user.getToken());
                 Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
                 navigateToHome();
             }
@@ -46,7 +46,6 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-        // ✅ Handle login button click
         loginButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -54,23 +53,19 @@ public class LogInActivity extends AppCompatActivity {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
-                userViewModel.login(email, password); // ✅ Login always requires input
+                userViewModel.login(email, password);
             }
         });
 
-        // ✅ Handle back button click
         backButton.setOnClickListener(v -> finish());
     }
 
-    // ✅ Save token for API calls (but do not use for auto-login)
     private void saveAuthToken(String token) {
         getSharedPreferences("UserPrefs", MODE_PRIVATE)
                 .edit()
                 .putString("auth_token", token)
                 .apply();
     }
-
-    // ✅ Navigate to AfterLogInActivity after login
     private void navigateToHome() {
         Intent intent = new Intent(LogInActivity.this, AfterLogInActivity.class);
         startActivity(intent);

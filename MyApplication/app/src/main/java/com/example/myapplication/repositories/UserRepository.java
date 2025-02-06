@@ -2,27 +2,69 @@ package com.example.myapplication.repositories;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.example.myapplication.api.RetrofitClient;
+import androidx.lifecycle.MutableLiveData;
 import com.example.myapplication.api.UserApi;
-import com.example.myapplication.api.WebServiceApi;
+import com.example.myapplication.daoes.UserDao;
+import com.example.myapplication.databases.UserDB;
 import com.example.myapplication.entities.User;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.myapplication.globals.GlobalToken;
+
+import java.util.concurrent.Executors;
 
 public class UserRepository {
-
+    private final UserDao userDao;
     private final UserApi userApi;
+    private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
 
     public UserRepository(Context context) {
-        // Initialize the UserApi with WebServiceApi instance
-        WebServiceApi webServiceApi = RetrofitClient.getInstance().create(WebServiceApi.class);
-        userApi = new UserApi(webServiceApi);
+        UserDB db = UserDB.getInstance(context);
+        this.userApi = new UserApi();
+        this.userDao = db.userDao();
     }
 
-    public void login(String email, String password, LoginCallback callback) {
+    // ✅ Login
+    public MutableLiveData<String> login(String email, String password) {
+        MutableLiveData<String> loginResponse = new MutableLiveData<>();
+
         userApi.login(email, password, new UserApi.LoginCallback() {
+            @Override
+            public void onSuccess(String token) {
+                GlobalToken.token = token;
+                Log.d("USER_REPO", "Login successful! Token: " + token);
+                loginResponse.postValue(token);
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("USER_REPO", "Login failed: " + error);
+                loginResponse.postValue(null);
+            }
+        });
+
+        return loginResponse;
+    }
+
+    // ✅ Fetch User Details
+    public MutableLiveData<User> fetchUserDetails(String token) {
+        userApi.getUserDetails(token, new UserApi.UserDetailsCallback() {
+            @Override
+            public void onSuccess(User user) {
+                userLiveData.postValue(user);
+                Executors.newSingleThreadExecutor().execute(() -> userDao.insert(user)); // Cache user in DB
+                Log.d("USER_REPO", "User details saved in DB.");
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("USER_REPO", "Failed to fetch user details: " + error);
+            }
+        });
+
+        return userLiveData;
+    }
+
+    public void createUser(String name, String email, String password, int age, String profilePicture, UserRepository.UserCallback callback) {
+        userApi.createUser(name, email, password, age, profilePicture, new UserApi.UserCallback() {
             @Override
             public void onSuccess(User user) {
                 callback.onSuccess(user);
@@ -35,26 +77,9 @@ public class UserRepository {
         });
     }
 
-    public void createUser(String name, String email, String password, int age, String profilePicture, UserCallback callback) {
-        userApi.createUser(name, email, password, age, profilePicture, new UserApi.UserCallback() {
-            @Override
-            public void onSuccess(User user) {
-                callback.onSuccess(null);
-            }
 
-            @Override
-            public void onError(String error) {
-                callback.onError(error);
-            }
-        });
-    }
-
-
-
-    // Callbacks for Login and Sign-up
-    public interface LoginCallback {
-        void onSuccess(User user);
-        void onError(String error);
+    public MutableLiveData<User> getUserLiveData() {
+        return userLiveData;
     }
 
     public interface UserCallback {
