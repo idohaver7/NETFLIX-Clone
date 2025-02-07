@@ -9,7 +9,7 @@ const fetchFromTcpServer = (message) => {
   return new Promise((resolve, reject) => {
     const client = new net.Socket();
     const SERVER_HOST = '127.0.0.1'; // TCP Server address
-    const SERVER_PORT = 8080;        // TCP Server port
+    const SERVER_PORT = 8000;        // TCP Server port
 
     client.connect(SERVER_PORT, SERVER_HOST, () => {
       client.write(message);
@@ -97,8 +97,6 @@ const addToRecommendedMovies = async (movieId,userId) => {
     if (!movie) {
       return null;
     }
-    console.log(userId);
-    
 
     //send a request to the tcp server
     const response = await fetchFromTcpServer(`POST `+ userId + ' ' + movieId);

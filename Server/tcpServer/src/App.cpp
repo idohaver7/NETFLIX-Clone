@@ -7,7 +7,7 @@
 #include <cstring>
 #include <iostream>
 
-#define DEFAULT_PORT 8080
+#define DEFAULT_PORT 8000
 #define BUFFER_SIZE 1024
 int port = (getenv("SERVER_PORT") != nullptr) ? atoi(getenv("SERVER_PORT")) : DEFAULT_PORT;
 
