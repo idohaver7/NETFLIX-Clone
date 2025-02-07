@@ -17,6 +17,7 @@ public class MovieRepository {
     private final MovieDao movieDao;
     private final MoviesApi moviesApi;
     private final MutableLiveData<Map<String, List<Movie>>> moviesLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<Movie>> justMoviesLiveData=new MutableLiveData<>();
 
     public MovieRepository(Context context) {
         MovieDB db = MovieDB.getInstance(context);
@@ -51,8 +52,52 @@ public class MovieRepository {
 
         return moviesLiveData;
     }
+    public MutableLiveData<List<Movie>> getRecommendedMovies(String movieId) {
+        if (GlobalToken.token == null || GlobalToken.token.isEmpty()) {
+            Log.e("MOVIE_REPO", "Token is missing! Cannot fetch movies.");
+            return justMoviesLiveData;
+        }
+
+        Log.d("MOVIE_REPO", "Fetching movies with token: " + GlobalToken.token);
+
+        moviesApi.getRecommendedMovies(GlobalToken.token,movieId, new MoviesApi.MovieListCallback() {
+            @Override
+            public void onSuccess(List<Movie> recommendedMovies) {
+                justMoviesLiveData.postValue(recommendedMovies);
+                Log.d("MOVIE_REPO", "Movies saved in DB.");
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("MOVIE_REPO", "Error fetching movies: " + error);
+            }
+        });
+
+        return justMoviesLiveData;
+    }
+    public void addMovieToWatchedBy(String movieId){
+        if (GlobalToken.token == null || GlobalToken.token.isEmpty()) {
+            Log.e("MOVIE_REPO", "Token is missing! Cannot fetch movies.");
+        }
+        Log.d("MOVIE_REPO", "Fetching movies with token: " + GlobalToken.token);
+        moviesApi.addMovieToWatchList(GlobalToken.token, movieId, new MoviesApi.MovieActionCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("MOVIE_REPO", "add movie to watched by.");
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("MOVIE_REPO", "Error add movie to watched by: " + error);
+
+            }
+        });
+    }
+
+
 
     public MutableLiveData<Map<String, List<Movie>>> getMoviesLiveData() {
         return moviesLiveData;
     }
+    public MutableLiveData<List<Movie>> getJustMoviesLiveData(){return justMoviesLiveData;}
 }

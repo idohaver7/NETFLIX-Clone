@@ -1,6 +1,7 @@
 const movieService = require('../services/movies');
 const categoryController = require('./category');
 const userService = require('../services/user');
+const Movie = require('../models/Movie');
 
 const createMovie = async (req, res) => {
   try {
@@ -101,16 +102,11 @@ const getMovie = async (req, res) => {
   };
   const getRecommendedMovies = async (req, res) => {
     try {
-      const response = await movieService.getRecommendedMovies(req.params.id,req.userId);
-      if (!response) {
+      const movies = await movieService.getRecommendedMovies(req.params.id,req.userId);
+      if (!movies) {
         return res.status(404).json({ errors: ['Movie or UserId not found'] });
       }
-      const lines=response.split('\n');
-      console.log(lines)
-      if(lines[0]=="200 OK"){
-        return res.status(200).json(lines[2]);
-      }
-      return res.status(404).json();
+      res.status(200).json(movies);
     } catch (error) {
       res.status(500).json({ errors: ['Internal Server Error'], details: error.message });
     }
@@ -122,7 +118,7 @@ const getMovie = async (req, res) => {
         return res.status(404).json({ errors: ['Movie or UserID not found'] });
       }
       if(response=="404 Not Found"){
-        return res.status(404).json({ errors: ['the movie is alreade inside the server'] });
+        return res.status(204).json();
       }
       //post response
       if(response=="201 Created"){

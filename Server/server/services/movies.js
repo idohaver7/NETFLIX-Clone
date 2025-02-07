@@ -85,7 +85,17 @@ const getRecommendedMovies = async (movieId,userId) => {
     }
     //send a request to the tcp server
     const response = await fetchFromTcpServer(`GET `+ userId + ' ' + movieId);
-    return response;
+    const lines=response.split('\n');
+    if(lines[0]=="200 OK"){
+    const movieLine=lines[2];
+    const moviesIds = movieLine.split(" ").filter(id => id.trim() !== "");
+    const moviePromises = moviesIds.map(id => getMovieById(id));
+
+    // Wait for all the movie fetch promises to resolve
+    const movies = await Promise.all(moviePromises);
+    return movies;
+    }
+    return null;
   } catch (error) {
     return null;
   }

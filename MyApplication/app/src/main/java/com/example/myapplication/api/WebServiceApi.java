@@ -68,7 +68,7 @@ public interface WebServiceApi {
 
     //Add Movie to watched by of the user
     @POST("api/movies/{id}/recommend")
-    Call<Void> addToWatchedBy(@Path("id") String MovieId, @Header("Authorization") String token);
+    Call<JsonObject> addToWatchedBy(@Path("id") String MovieId, @Header("Authorization") String token);
     //Get all movies
     @GET("api/all/movies")
     Call<List<Movie>> getAllMovies(@Header("Authorization") String token);

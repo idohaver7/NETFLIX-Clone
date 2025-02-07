@@ -12,27 +12,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.example.myapplication.adapters.CategoryAdapter;
 import com.example.myapplication.adapters.MovieAdapter;
 import com.example.myapplication.databinding.ActivityMovieDetailsBinding;
 import com.example.myapplication.entities.Movie;
 import com.example.myapplication.repositories.MovieRepository;
+import com.example.myapplication.viewModel.MovieViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class MovieDetailsActivity extends AppCompatActivity {
-    private ImageView movieImage,backBtn;
+    private ImageView movieImage;
     private Button playBtn;
     private ActivityMovieDetailsBinding binding;
     private TextView movieTitle, movieDescription;
     private RecyclerView relatedMoviesRecyclerView;
     private MovieAdapter movieAdapter;
     private List<Movie> relatedMoviesList = new ArrayList<>();
-    private MovieRepository movieRepository;
+    private MovieViewModel movieViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,41 +77,43 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         .placeholder(R.drawable.placeholder_movie)
                         .error(R.drawable.placeholder_movie)
                         .into(movieImage);
-
-
+//                // Initialize RecyclerView
+//                relatedMoviesRecyclerView = binding.lstRecommendedMovies;
+//                relatedMoviesRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+//
+//                // Initialize Adapter
+//                movieAdapter = new MovieAdapter(this,relatedMoviesList);
+//                relatedMoviesRecyclerView.setAdapter(movieAdapter);
+//
+//                // Initialize ViewModel
+                movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+                //movieViewModel.getRecommendedMovies().observe(this,relatedMoviesList);
+//
+//                }
                 playBtn.setOnClickListener(v -> {
+                    movieViewModel.addMovieToWatchedBy(movie.getId());
                     Intent videoIntent = new Intent(MovieDetailsActivity.this, FullScreenMovieActivity.class);
                     videoIntent.putExtra("videoUrl", movie.getVideo());
                     startActivity(videoIntent);
                 });
-
-                // Fetch related movies
-
                 loadRelatedMovies(movie);
+
             }
         }
     }
 
     private void loadRelatedMovies(Movie selectedMovie) {
-        movieRepository = new MovieRepository(this);
-        movieRepository.getMoviesLiveData().observe(this, moviesByCategory -> {
+        movieViewModel.getRecommendedMovies().observe(this, recommendedMovies -> {
             relatedMoviesList.clear();
-            if (moviesByCategory != null) {
-                for (Map.Entry<String, List<Movie>> entry : moviesByCategory.entrySet()) {
-                    for (Movie movie : entry.getValue()) {
-                        if (!movie.getId().equals(selectedMovie.getId())) { // Exclude the current movie
-                            relatedMoviesList.add(movie);
-                        }
-                    }
-                }
+            if (recommendedMovies != null) {
+                relatedMoviesList.addAll(recommendedMovies);
+
+                // Set up horizontal RecyclerView
+                movieAdapter = new MovieAdapter(this, relatedMoviesList);
+                relatedMoviesRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
+                relatedMoviesRecyclerView.setAdapter(movieAdapter);
             }
-
-            // Set up horizontal RecyclerView
-            movieAdapter = new MovieAdapter(this, relatedMoviesList);
-            relatedMoviesRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
-            relatedMoviesRecyclerView.setAdapter(movieAdapter);
         });
-
-        movieRepository.fetchMovies();
+        movieViewModel.getRecommendedMovies(selectedMovie.getId());
     }
 }

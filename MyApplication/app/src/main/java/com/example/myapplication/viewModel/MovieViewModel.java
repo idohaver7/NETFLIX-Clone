@@ -12,19 +12,27 @@ import java.util.Map;
 public class MovieViewModel extends AndroidViewModel {
     private final MovieRepository movieRepository;
     private final LiveData<Map<String, List<Movie>>> moviesLiveData;
+    private final LiveData<List<Movie>> justMovies;
 
     public MovieViewModel(@NonNull Application application) {
         super(application);
         movieRepository = new MovieRepository(application);
         moviesLiveData = movieRepository.getMoviesLiveData();
+        justMovies=movieRepository.getJustMoviesLiveData();
+
     }
 
     public void fetchMovies() {
         movieRepository.fetchMovies();
     }
+    public void addMovieToWatchedBy(String movieId){movieRepository.addMovieToWatchedBy(movieId);}
 
     public LiveData<Map<String, List<Movie>>> getMovies() {
         return moviesLiveData;
     }
+    public LiveData<List<Movie>> getRecommendedMovies(){return justMovies;}
+    public void getRecommendedMovies(String movieId){movieRepository.getRecommendedMovies(movieId);}
+
+
 }
 
