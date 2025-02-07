@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".manager.DeleteMovieActivity">
+    android:padding="16dp"
+    tools:context=".manager.UpdateMovieListActivity">
 
     <!-- Back Button -->
     <ImageView
@@ -37,7 +38,7 @@
         android:id="@+id/pageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete Movies"
+        android:text="Update Movies"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@color/text_color"
@@ -56,6 +57,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_movie_delete" />
-
+        tools:listitem="@layout/item_movie_update" />
 </androidx.constraintlayout.widget.ConstraintLayout>

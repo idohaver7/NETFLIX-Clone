@@ -101,7 +101,6 @@ public class MoviesApi {
 
     public void deleteMovie(String token, String movieId, MovieActionCallback callback) {
         String authToken = "Bearer " + token;
-        // Assumes that your WebServiceApi has a method deleteMovie(String authToken, String movieId)
         webServiceApi.DeleteMovie(authToken, movieId).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

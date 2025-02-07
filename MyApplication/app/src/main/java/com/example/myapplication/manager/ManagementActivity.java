@@ -39,7 +39,7 @@ public class ManagementActivity extends AppCompatActivity {
 
         // Button Click Listeners
         addMovieButton.setOnClickListener(view -> navigateTo(AddMovieActivity.class));
-        updateMovieButton.setOnClickListener(view -> navigateTo(UpdateMovieActivity.class));
+        updateMovieButton.setOnClickListener(view -> navigateTo(UpdateMovieListActivity.class));
         deleteMovieButton.setOnClickListener(view -> navigateTo(DeleteMovieActivity.class));
         showMoviesButton.setOnClickListener(view -> navigateTo(ShowMoviesActivity.class));
 
