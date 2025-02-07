@@ -3,13 +3,21 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.adapters.MovieAdapter;
+import com.example.myapplication.databinding.ActivityMovieDetailsBinding;
 import com.example.myapplication.entities.Movie;
 import com.example.myapplication.repositories.MovieRepository;
 import java.util.ArrayList;
@@ -17,7 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 public class MovieDetailsActivity extends AppCompatActivity {
-    private ImageView movieImage, playButton, backButton;
+    private ImageView movieImage,backBtn;
+    private Button playBtn;
+    private ActivityMovieDetailsBinding binding;
     private TextView movieTitle, movieDescription;
     private RecyclerView relatedMoviesRecyclerView;
     private MovieAdapter movieAdapter;
@@ -27,18 +37,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_details);
+        binding = ActivityMovieDetailsBinding.inflate(getLayoutInflater());
+        EdgeToEdge.enable(this);
+        setContentView(binding.getRoot());
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
 
         // Initialize UI Components
-        movieImage = findViewById(R.id.movieImage);
-        movieTitle = findViewById(R.id.movieTitle);
-        movieDescription = findViewById(R.id.movieDescription);
-        playButton = findViewById(R.id.playButton);
-        backButton = findViewById(R.id.backButton);
-        relatedMoviesRecyclerView = findViewById(R.id.relatedMoviesRecyclerView);
+        movieImage = binding.imageView;
+        movieTitle = binding.movieName;
+        movieDescription = binding.videoDescription;
+        playBtn = binding.playBtn;
+        relatedMoviesRecyclerView =binding.lstRecommendedMovies;
 
         // Handle Back Button
-        backButton.setOnClickListener(view -> finish());
+        //backButton.setOnClickListener(view -> finish());
 
         // Get movie data from Intent
         Intent intent = getIntent();
@@ -57,12 +73,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         .error(R.drawable.placeholder_movie)
                         .into(movieImage);
 
-//                // Play Button Click Action (Placeholder)
-//                playButton.setOnClickListener(v -> {
-//                    Intent videoIntent = new Intent(MovieDetailsActivity.this, VideoPlayerActivity.class);
-//                    videoIntent.putExtra("videoUrl", movie.getVideo());
-//                    startActivity(videoIntent);
-//                });
+
+                playBtn.setOnClickListener(v -> {
+                    Intent videoIntent = new Intent(MovieDetailsActivity.this, FullScreenMovieActivity.class);
+                    videoIntent.putExtra("videoUrl", movie.getVideo());
+                    startActivity(videoIntent);
+                });
 
                 // Fetch related movies
 
@@ -87,7 +103,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             // Set up horizontal RecyclerView
             movieAdapter = new MovieAdapter(this, relatedMoviesList);
-            relatedMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            relatedMoviesRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
             relatedMoviesRecyclerView.setAdapter(movieAdapter);
         });
 

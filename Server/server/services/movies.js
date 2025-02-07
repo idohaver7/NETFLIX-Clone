@@ -97,6 +97,8 @@ const addToRecommendedMovies = async (movieId,userId) => {
     if (!movie) {
       return null;
     }
+    console.log(userId);
+    
 
     //send a request to the tcp server
     const response = await fetchFromTcpServer(`POST `+ userId + ' ' + movieId);

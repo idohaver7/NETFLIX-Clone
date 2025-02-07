@@ -10,7 +10,7 @@
         android:id="@+id/movieImage"
         android:layout_width="140dp"
         android:layout_height="210dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:src="@drawable/placeholder_movie"/>
 </LinearLayout>
