@@ -38,14 +38,14 @@ public class ManagementActivity extends AppCompatActivity {
         greetingText.setText("Hello, " + userName + "!");
 
         // Button Click Listeners
-//        addMovieButton.setOnClickListener(view -> navigateTo(AddMovieActivity.class));
-//        updateMovieButton.setOnClickListener(view -> navigateTo(UpdateMovieActivity.class));
-//        deleteMovieButton.setOnClickListener(view -> navigateTo(DeleteMovieActivity.class));
-//        showMoviesButton.setOnClickListener(view -> navigateTo(ShowMoviesActivity.class));
-//
-//        addCategoryButton.setOnClickListener(view -> navigateTo(AddCategoryActivity.class));
-//        deleteCategoryButton.setOnClickListener(view -> navigateTo(DeleteCategoryActivity.class));
-//        showCategoriesButton.setOnClickListener(view -> navigateTo(ShowCategoriesActivity.class));
+        addMovieButton.setOnClickListener(view -> navigateTo(AddMovieActivity.class));
+        updateMovieButton.setOnClickListener(view -> navigateTo(UpdateMovieActivity.class));
+        deleteMovieButton.setOnClickListener(view -> navigateTo(DeleteMovieActivity.class));
+        showMoviesButton.setOnClickListener(view -> navigateTo(ShowMoviesActivity.class));
+
+        addCategoryButton.setOnClickListener(view -> navigateTo(AddCategoryActivity.class));
+        deleteCategoryButton.setOnClickListener(view -> navigateTo(DeleteCategoryActivity.class));
+        showCategoriesButton.setOnClickListener(view -> navigateTo(ShowCategoriesActivity.class));
     }
 
     private void navigateTo(Class<?> activityClass) {

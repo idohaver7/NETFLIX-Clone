@@ -56,7 +56,7 @@ public interface WebServiceApi {
 
     //Edit Movie
     @PUT("api/movies/{id}")
-    Call<JsonObject> editMovie(@Path("id") String MovieId, @Header("Authorization") String token, @Body JsonObject movie);
+    Call<JsonObject> updateMovie(@Path("id") String MovieId, @Header("Authorization") String token, @Body JsonObject movie);
 
     //Delete Movie
     @DELETE("api/movies/{id}")

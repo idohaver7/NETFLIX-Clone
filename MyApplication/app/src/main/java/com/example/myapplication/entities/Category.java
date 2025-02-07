@@ -7,10 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 @Entity
 public class Category implements Parcelable {
     @PrimaryKey
     @NonNull
+    @SerializedName("_id")
     private String id;
     private String name;
     private boolean promoted;

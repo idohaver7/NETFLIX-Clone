@@ -66,8 +66,8 @@ public class SearchMovieActivity extends AppCompatActivity {
         searchInput.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (event.getRawX() >= (searchInput.getRight() - searchInput.getCompoundDrawables()[2].getBounds().width())) {
-                    searchInput.setText(""); // ✅ Clears search text
-                    v.performClick();  // ✅ Ensures accessibility and prevents warnings
+                    searchInput.setText("");
+                    v.performClick();
                     return true;
                 }
             }
