@@ -20,7 +20,7 @@ const createMovie = async (req, res) => {
 };
 
 
-  const getMovies = async (req, res) => {
+  /*const getMovies = async (req, res) => {
     try {
       // Fetch all movies with their categories populated
       const movies = await movieService.getMovies(); // Ensure category is populated
@@ -56,6 +56,55 @@ const createMovie = async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch movies.' });
     }
   };
+*/
+const getMovies = async (req, res) => {
+  try {
+      // Fetch all movies with their categories populated
+      const movies = await movieService.getMovies();
+
+      // Group all movies by category
+      let moviesByCategory = movies.reduce((result, movie) => {
+          const categoryName = movie.category.name;
+          if (!result[categoryName]) {
+              result[categoryName] = [];
+          }
+          if (result[categoryName].length < 20) {
+              result[categoryName].push(movie);
+          }
+          return result;
+      }, {});
+
+      // Create an ordered list of categories with promoted ones first
+      let orderedMoviesByCategory = {};
+      // Add promoted categories first
+      Object.keys(moviesByCategory).forEach(categoryName => {
+          if (moviesByCategory[categoryName][0] && moviesByCategory[categoryName][0].category.promoted) {
+              orderedMoviesByCategory[categoryName] = moviesByCategory[categoryName];
+          }
+      });
+      // Add non-promoted categories
+      Object.keys(moviesByCategory).forEach(categoryName => {
+          if (!moviesByCategory[categoryName][0].category.promoted) {
+              orderedMoviesByCategory[categoryName] = moviesByCategory[categoryName];
+          }
+      });
+
+      // Fetch the last 20 movies the user has watched
+      const lastWatchedMovies = await movieService.getLastWatchedMovies(req.userId);
+
+      // If the user has watched movies, add a special category
+      if (lastWatchedMovies.length > 0) {
+          orderedMoviesByCategory['Last Watched'] = lastWatchedMovies;
+      }
+
+      // Return the grouped movies with promoted categories on top
+      res.status(200).json(orderedMoviesByCategory);
+
+  } catch (error) {
+      console.error('Error fetching movies:', error.message);
+      res.status(500).json({ error: 'Failed to fetch movies.' });
+  }
+};
 
 
 const getMovie = async (req, res) => {
