@@ -120,6 +120,50 @@ public class MoviesApi {
             }
         });
     }
+    public void getRecommendedMovies(String token,String movieId, MovieListCallback callback) {
+        webServiceApi.getRecommendsMovies(movieId,"Bearer " + token).enqueue(new Callback<List<Movie>>() {
+            @Override
+            public void onResponse(Call<List<Movie>> call, Response<List<Movie>>  response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("API_RESPONSE", "Recommended Movies fetched: " + response.body().size() );
+
+                    // Send the entire movies structure
+                    callback.onSuccess(response.body());
+                } else {
+                    Log.e("API_ERROR", "Failed to fetch movies. Response Code: " + response.code());
+                    callback.onError("Failed to fetch movies.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Movie>>  call, Throwable t) {
+                Log.e("API_ERROR", "Network error: " + t.getMessage());
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
+    public void addMovieToWatchList(String token,String movieId,MovieActionCallback callback){
+        webServiceApi.addToWatchedBy(movieId,"Bearer " + token).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    Log.d("API_RESPONSE", "Movie added to watchedBy successfully.");
+                    callback.onSuccess();
+                } else {
+                    Log.e("API_ERROR", "Failed to add movie to watched by. Response Code: " + response.code());
+                    callback.onError("Failed to add movie to watched by.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("API_ERROR", "Network error: " + t.getMessage());
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
+
+
 
     public interface MovieCallback {
         void onSuccess(Map<String, List<Movie>> moviesByCategory);
@@ -128,6 +172,10 @@ public class MoviesApi {
 
     public interface MovieActionCallback {
         void onSuccess();
+        void onError(String error);
+    }
+    public interface MovieListCallback {
+        void onSuccess(List<Movie> recommendedMovie);
         void onError(String error);
     }
 }
