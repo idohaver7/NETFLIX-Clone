@@ -8,7 +8,7 @@ import com.example.myapplication.daoes.MovieDao;
 import com.example.myapplication.databases.MovieDB;
 import com.example.myapplication.entities.Movie;
 import com.example.myapplication.globals.GlobalToken;
-
+import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 public class MovieRepository {
     private final MovieDao movieDao;
     private final MoviesApi moviesApi;
+    // LiveData holding movies grouped by category.
     private final MutableLiveData<Map<String, List<Movie>>> moviesLiveData = new MutableLiveData<>();
 
     public MovieRepository(Context context) {
@@ -29,16 +30,16 @@ public class MovieRepository {
             Log.e("MOVIE_REPO", "Token is missing! Cannot fetch movies.");
             return moviesLiveData;
         }
-
         Log.d("MOVIE_REPO", "Fetching movies with token: " + GlobalToken.token);
-
         moviesApi.getMovies(GlobalToken.token, new MoviesApi.MovieCallback() {
             @Override
             public void onSuccess(Map<String, List<Movie>> moviesByCategory) {
                 moviesLiveData.postValue(moviesByCategory);
+                // Save movies in a background thread.
                 Executors.newSingleThreadExecutor().execute(() -> {
-                    for (List<Movie> movies : moviesByCategory.values())
+                    for (List<Movie> movies : moviesByCategory.values()) {
                         movieDao.insert(movies.toArray(new Movie[0]));
+                    }
                 });
                 Log.d("MOVIE_REPO", "Movies saved in DB.");
             }
@@ -48,8 +49,78 @@ public class MovieRepository {
                 Log.e("MOVIE_REPO", "Error fetching movies: " + error);
             }
         });
-
         return moviesLiveData;
+    }
+
+    public MutableLiveData<Boolean> createMovie(Movie movie) {
+        MutableLiveData<Boolean> isCreatedLiveData = new MutableLiveData<>();
+        JsonObject movieJson = new JsonObject();
+        movieJson.addProperty("id", ""); // Leave empty so backend generates the ID.
+        movieJson.addProperty("title", movie.getTitle());
+        // Send the category as a simple string (its ObjectId).
+        movieJson.addProperty("category", movie.getCategory().getId());
+        movieJson.addProperty("video", movie.getVideo());
+        movieJson.addProperty("description", movie.getDescription());
+        movieJson.addProperty("image", movie.getImage());
+        Log.d("MOVIE_JSON", movieJson.toString());
+        moviesApi.createMovie(GlobalToken.token, movieJson, new MoviesApi.MovieActionCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("MOVIE_REPO", "Movie created successfully!");
+                isCreatedLiveData.postValue(true);
+            }
+            @Override
+            public void onError(String error) {
+                Log.e("MOVIE_REPO", "Movie creation failed: " + error);
+                isCreatedLiveData.postValue(false);
+            }
+        });
+        return isCreatedLiveData;
+    }
+
+    // New updateMovie() method.
+    public MutableLiveData<Boolean> updateMovie(Movie movie) {
+        MutableLiveData<Boolean> isUpdatedLiveData = new MutableLiveData<>();
+        // Build JSON payload for update. Do not include the "id" key.
+        JsonObject movieJson = new JsonObject();
+        movieJson.addProperty("title", movie.getTitle());
+        movieJson.addProperty("category", movie.getCategory().getId());
+        movieJson.addProperty("video", movie.getVideo());
+        movieJson.addProperty("description", movie.getDescription());
+        movieJson.addProperty("image", movie.getImage());
+        Log.d("MOVIE_UPDATE_JSON", movieJson.toString());
+        moviesApi.updateMovie(GlobalToken.token, movie.getId(), movieJson, new MoviesApi.MovieActionCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("MOVIE_REPO", "Movie updated successfully!");
+                isUpdatedLiveData.postValue(true);
+            }
+            @Override
+            public void onError(String error) {
+                Log.e("MOVIE_REPO", "Movie update failed: " + error);
+                isUpdatedLiveData.postValue(false);
+            }
+        });
+        return isUpdatedLiveData;
+    }
+
+    public MutableLiveData<Boolean> deleteMovie(Movie movie) {
+        MutableLiveData<Boolean> isDeletedLiveData = new MutableLiveData<>();
+        moviesApi.deleteMovie(GlobalToken.token, movie.getId(), new MoviesApi.MovieActionCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("MOVIE_REPO", "Movie deleted successfully!");
+                // Optionally, remove from local DB in a background thread.
+                Executors.newSingleThreadExecutor().execute(() -> movieDao.delete(movie));
+                isDeletedLiveData.postValue(true);
+            }
+            @Override
+            public void onError(String error) {
+                Log.e("MOVIE_REPO", "Movie deletion failed: " + error);
+                isDeletedLiveData.postValue(false);
+            }
+        });
+        return isDeletedLiveData;
     }
 
     public MutableLiveData<Map<String, List<Movie>>> getMoviesLiveData() {

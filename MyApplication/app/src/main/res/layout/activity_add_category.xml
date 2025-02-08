@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addCategoryLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".manager.AddCategoryActivity">
+
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/back"
+        android:src="@drawable/ic_back"
+        app:tint="?attr/backArrowColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Netflix Logo -->
+    <ImageView
+        android:id="@+id/netflixLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Netflix Logo"
+        android:scaleType="centerInside"
+        android:src="@drawable/netflix_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Page Title -->
+    <TextView
+        android:id="@+id/pageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Category"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_color"
+        app:layout_constraintTop_toBottomOf="@id/netflixLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Category Name Input -->
+    <EditText
+        android:id="@+id/editTextCategoryName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Category Name"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/pageTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp" />
+
+    <!-- Promoted Switch -->
+    <Switch
+        android:id="@+id/switchPromoted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Promoted"
+        app:layout_constraintTop_toBottomOf="@id/editTextCategoryName"
+        app:layout_constraintStart_toStartOf="@id/editTextCategoryName"
+        android:layout_marginTop="16dp" />
+
+    <!-- Add Category Button -->
+    <Button
+        android:id="@+id/buttonAddCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Category"
+        app:layout_constraintTop_toBottomOf="@id/switchPromoted"
+        app:layout_constraintStart_toStartOf="@id/editTextCategoryName"
+        app:layout_constraintEnd_toEndOf="@id/editTextCategoryName"
+        android:layout_marginTop="24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
