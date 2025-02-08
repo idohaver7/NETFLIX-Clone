@@ -45,22 +45,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
         binding = ActivityMovieDetailsBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
-
         // Initialize UI Components
         movieImage = binding.imageView;
         movieTitle = binding.movieName;
         movieDescription = binding.videoDescription;
         playBtn = binding.playBtn;
         relatedMoviesRecyclerView =binding.lstRecommendedMovies;
-
-        // Handle Back Button
-        //backButton.setOnClickListener(view -> finish());
-
         // Get movie data from Intent
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("movie")) {
@@ -77,18 +67,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         .placeholder(R.drawable.placeholder_movie)
                         .error(R.drawable.placeholder_movie)
                         .into(movieImage);
-//                // Initialize RecyclerView
-//                relatedMoviesRecyclerView = binding.lstRecommendedMovies;
-//                relatedMoviesRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-//
-//                // Initialize Adapter
-//                movieAdapter = new MovieAdapter(this,relatedMoviesList);
-//                relatedMoviesRecyclerView.setAdapter(movieAdapter);
 //
 //                // Initialize ViewModel
                 movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
-                //movieViewModel.getRecommendedMovies().observe(this,relatedMoviesList);
-//
 //                }
                 playBtn.setOnClickListener(v -> {
                     movieViewModel.addMovieToWatchedBy(movie.getId());
