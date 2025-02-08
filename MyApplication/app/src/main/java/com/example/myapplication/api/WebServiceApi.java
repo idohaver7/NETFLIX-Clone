@@ -56,11 +56,11 @@ public interface WebServiceApi {
 
     //Edit Movie
     @PUT("api/movies/{id}")
-    Call<JsonObject> editMovie(@Path("id") String MovieId, @Header("Authorization") String token, @Body JsonObject movie);
+    Call<JsonObject> updateMovie(@Header("Authorization") String token, @Path("id") String MovieId, @Body JsonObject movie);
 
     //Delete Movie
     @DELETE("api/movies/{id}")
-    Call<JsonObject> DeleteMovie(@Path("id") String MovieId, @Header("Authorization") String token);
+    Call<JsonObject> DeleteMovie(@Header("Authorization") String token, @Path("id") String MovieId);
 
     //Get recommends movies
     @GET("api/movies/{id}/recommend")

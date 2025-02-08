@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,7 +15,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+        <activity
+            android:name=".manager.UpdateMovieListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".manager.DeleteMovieActivity"
+            android:exported="false" />
+        <activity
+            android:name=".manager.UpdateMovieActivity"
+            android:exported="false" />
+        <activity
+            android:name=".manager.AddCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".manager.ShowCategoriesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".manager.ShowMoviesActivity"
+            android:exported="false" />
+        <activity android:name=".manager.DeleteCategoryActivity" />
+        <activity
+            android:name=".manager.AddMovieActivity"
+            android:exported="false" />
         <activity
             android:name=".manager.ManagementActivity"
             android:exported="false" />
@@ -45,7 +67,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
