@@ -67,15 +67,6 @@
             android:backgroundTint="#D50000"
             android:textColor="@color/text_color_button"
             android:text="@string/signUpBtnText" />
-
-        <Switch
-            android:id="@+id/night_switch"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:checked="false"
-            android:text="@string/night_mode_switch" />
     </LinearLayout>
 
     <LinearLayout

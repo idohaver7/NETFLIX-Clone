@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    app:context=".FullScreenMovieActivity"
-    app:ignore="NamespaceTypo">
+    tools:context=".FullScreenMovieActivity"
+    tools:ignore="NamespaceTypo">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:keepScreenOn="true"
-        app:resizeMode="fit"
-        app:show_timeout="0"
-        app:use_controller="false"/>  <!-- Custom controls will be used -->
+        tools:resizeMode="fit"
+        tools:show_timeout="0"
+        tools:use_controller="false"/>  <!-- Custom controls will be used -->
 </FrameLayout>
