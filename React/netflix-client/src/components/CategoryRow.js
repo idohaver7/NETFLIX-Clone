@@ -3,9 +3,8 @@ import MovieCard from './MovieCard'
 
 export default function CategoryRow({ category, movies }) {
     useEffect(() => {
-        console.log(category)
-    })
-
+        console.log(movies)
+    }, [])
     if (movies.length === 0)
         return(<></>)
 

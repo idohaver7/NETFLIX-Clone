@@ -11,8 +11,8 @@ export default function Categories({ token }) {
     const [addMovie, setAddMovie] = useState({ 
         title: '', 
         description: '',
-        image: '',
-        video: '',
+        image: null,
+        video: null,
         category: '' 
     })
 
@@ -87,29 +87,41 @@ export default function Categories({ token }) {
     }
 
     const submitAdd = (event) => {
-        event.preventDefault()
+        event.preventDefault();
+    
+        if (!addMovie.title || !addMovie.description || !addMovie.video || !addMovie.image || !addMovie.category) {
+            return alert('Error: Some fields are missing');
+        }
 
-        if (!addMovie.title || !addMovie.description || !addMovie.video || !addMovie.image || !addMovie.category)
-            return alert('Error: some field are missed')
-
+        const formData = new FormData();
+        formData.append('title', addMovie.title);
+        formData.append('description', addMovie.description);
+        formData.append('image', addMovie.image);
+        formData.append('video', addMovie.video);
+        formData.append('category', addMovie.category);
+    
         fetch('http://localhost:8080/api/movies', {
             method: "POST",
-            headers: { 
-                'Content-Type': 'application/json',
+            headers: {
                 'Authorization': token 
             },
-            body: JSON.stringify(addMovie)
+            body: formData
         })
         .then(response => {
             if (response.ok) {
-                alert('Movie Created Succuesfully')
-                setAddMovie({})
-                setShowAddModal(false)
+                alert('Movie Created Successfully');
+                setAddMovie({ title: '', description: '', image: null, video: null, category: '' });
+                setShowAddModal(false);
                 setTrigger(prev => prev + 1);
-            } else 
-                alert('Error: Server error, please try again')
+            } else {
+                alert('Error: Server error, please try again');
+            }
         })
-    }
+        .catch(error => {
+            console.log('Error submitting movie:', error);
+            alert('Error: Network error, please try again');
+        });
+    };    
 
     const deleteMovie = (movie_id) => {
         fetch(`http://localhost:8080/api/movies/${movie_id}`, {
@@ -127,6 +139,24 @@ export default function Categories({ token }) {
                 alert('Error: Server error, please try again')
         })
     }
+
+    const onImageChange = (event) => {
+        if (event.target.files[0]) {
+            setAddMovie(prevState => ({
+                ...prevState,
+                image: event.target.files[0]
+            }));
+        }
+    };
+
+    const onVideoChange = (event) => {
+        if (event.target.files[0]) {
+            setAddMovie(prevState => ({
+                ...prevState,
+                video: event.target.files[0]
+            }));
+        }
+    };
 
     if (loading)
         return(
@@ -195,18 +225,18 @@ export default function Categories({ token }) {
                         placeholder="Description" 
                         value={addMovie.description}
                         onChange={handleAddChange} />
+                    <label>Video</label>
                     <input 
-                        type="text"
+                        type="file"
                         name="video"
                         placeholder="Video Path" 
-                        value={addMovie.video}
-                        onChange={handleAddChange} />
+                        onChange={onVideoChange} />
+                     <label>Image</label>
                     <input 
-                        type="text"
+                        type="file"
                         name="image"
                         placeholder="Image Path" 
-                        value={addMovie.image}
-                        onChange={handleAddChange} />
+                        onChange={onImageChange} />
                     <div className="select__container">
                         <select name="category" onChange={handleAddChange} value={addMovie.category}>
                             <option>Select Category:</option>
@@ -243,18 +273,6 @@ export default function Categories({ token }) {
                         name="description"
                         placeholder="Description" 
                         value={editMovie.description}
-                        onChange={handleEditChange} />
-                    <input 
-                        type="text"
-                        name="video"
-                        placeholder="Video Path" 
-                        value={editMovie.video}
-                        onChange={handleEditChange} />
-                    <input 
-                        type="text"
-                        name="image"
-                        placeholder="Image Path" 
-                        value={editMovie.image}
                         onChange={handleEditChange} />
                     <div className="select__container">
                         <select name="category" onChange={handleEditChange} value={editMovie.category._id}>

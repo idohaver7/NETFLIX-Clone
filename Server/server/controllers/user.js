@@ -5,6 +5,8 @@ const fs = require('fs');
 const createUser = async (req, res) => {
   try {
       const { email, password, name } = req.body;
+      console.log(req.body)
+      console.log(req.file)
       let profilePicture = req.file ? req.file.path : null; // path where the image is saved
 
       if (!email || !password) {
@@ -22,7 +24,7 @@ const createUser = async (req, res) => {
 const getUser = async (req, res) => {
     try {
         const id  = req.userId;
-        const user = await userService.getUserById(id);
+        let user = await userService.getUserById(id);
         if (!user) {
             return res.status(404).json({ errors: ['User not found'] });
         }
@@ -35,7 +37,7 @@ const getUser = async (req, res) => {
           }
           const imageBase64 = Buffer.from(data).toString('base64');
           user.image = `data:image/jpg;base64,${imageBase64}`
-    
+
           return res.status(200).json(user);
         });
     } catch (error) {

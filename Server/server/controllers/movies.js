@@ -5,6 +5,8 @@ const path = require('path')
 const fs = require('fs')
 const fsPromises = require('fs').promises;
 
+
+
 const attachImageToMovie = async (movie) => {
   // If there’s no movie or no image file name, simply return the movie.
   if (!movie || !movie.image) return movie;
@@ -32,7 +34,9 @@ const attachImagesToMovies = async (movies) => {
 
 const createMovie = async (req, res) => {
   try {
-    const { title, category, video, description, image } = req.body;
+    const { title, category, description } = req.body;
+    const image = req.files['image'] ? req.files['image'][0].filename : null;  
+    const video = req.files['video'] ? req.files['video'][0].filename : null;  
 
     if (!title || !category) {
       return res.status(400).json({ errors: ['Title and Category are required'] });
@@ -194,20 +198,31 @@ const allMovies = async (req, res) => {
 }
 
 const sendMovie = async (req, res) => {
-  const movie = await movieService.getMovieById(req.params.id)
-  if (!movie) res.status(400).send('Movie Not Found')
-  
-  const videoPath = path.join(__dirname, `../public/video/${movie.video}`);
+  try {
+    const movie = await movieService.getMovieById(req.params.id);
+    if (!movie) {
+      return res.status(404).send('Movie not found');
+    }
 
-  const stat = fs.statSync(videoPath);
-  const fileSize = stat.size;
-  const head = {
-    'Content-Length': fileSize,
-    'Content-Type': 'video/mp4',
-  };  
-  res.writeHead(200, head);
-  fs.createReadStream(videoPath).pipe(res);
-}
+    const videoPath = path.join(__dirname, `../public/videos/${movie.video}`);
+    if (!fs.existsSync(videoPath)) {
+      return res.status(404).send('Video file not found');
+    }
+
+    const stat = fs.statSync(videoPath);
+    const fileSize = stat.size;
+    const head = {
+      'Content-Length': fileSize,
+      'Content-Type': 'video/mp4',
+    };
+
+    res.writeHead(200, head);
+    fs.createReadStream(videoPath).pipe(res);
+  } catch (error) {
+    console.error('Error sending movie:', error);
+    res.status(500).send('Internal server error');
+  }
+};
 
 module.exports = { createMovie,
                      getMovies, 

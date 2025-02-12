@@ -466,6 +466,7 @@ body {
   -webkit-overflow-scrolling: touch; 
   scroll-behavior: smooth; 
   width: 100%; 
+  overflow-x: scroll;
 }
 
 .slide {
@@ -526,12 +527,12 @@ body {
 }
 
 .movie__card {
+  overflow: hidden;
   transition: 0.3s all ease;
 }
 
-.movie__card:hover {
+.movie__card:hover > img{
   transform: scale(1.2);
-  z-index: 2;
 }
 .movie__card:hover .movie__buttons {
   opacity: 1;

@@ -20,19 +20,22 @@ export default function MoviePlayer() {
     useEffect(() => {
         if (!token)
             navigate('/login', { replace: true })
-    })
+    },[token])
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/movies/${id}`, {
+        console.log(movie)
+    }, [movie])
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/movies/player/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token
               }
         })
-        .then(response => response.json())
         .then(data => {
-            setMovie(data)
+            setMovie(`http://localhost:8080/api/movies/player/${id}`)
             setLoading(false)
         })
     }, [id, token])
@@ -126,7 +129,7 @@ export default function MoviePlayer() {
     return (
         <div className="video__container">
             <div className="close__video" onClick={() => navigate('/home')}>X</div>
-            <video ref={videoRef} className="video__player" src={`/movies/video/${movie.video}`} onClick={togglePlay}>
+            <video ref={videoRef} className="video__player" src={movie} onClick={togglePlay}>
                 Your browser does not support the video tag.
             </video>
             <div className="video__controls">

@@ -10,6 +10,10 @@ export default function Header({showButtons, token }) {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
+        console.log(user)
+    }, [user])
+    
+    useEffect(() => {
         if (token) {
             fetch(`http://localhost:8080/api/categories`, {
                 method: 'GET',

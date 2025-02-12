@@ -4,7 +4,7 @@ export default function MovieHero({ movie }) {
     const navigate = useNavigate()
     
     return(
-        <div className="movieHero__wrapper" style={{ backgroundImage: `url('/movies/image/${movie.image}')` }}>
+        <div className="movieHero__wrapper" style={{ backgroundImage: `url('${movie.image}')` }}>
             <div className="movieHero__content container">
                 <h1>{ movie.title }</h1>
                 <p>{ movie.description }</p>
