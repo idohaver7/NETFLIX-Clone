@@ -14,8 +14,9 @@ export default function Login() {
     })
 
     useEffect(() => {
-        navigate('/home')
-    }, [])
+        if (token)
+            navigate('/home')
+    }, [token])
     
 
     const handleChange = (event) => {

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 export default function Register() {
     const [email, setEmail] = useState('')
     const [password, setPassowrd] = useState('')
-    const [profile, setProfile] = useState()
+    const [profile, setProfile] = useState(null)
     const [name, setName] = useState('')
     const [error, setError] = useState('')
     const navigate = useNavigate()
@@ -16,9 +16,14 @@ export default function Register() {
     })
 
     useEffect(() => {
-        navigate('/home')
-    }, [])
+        if (token)
+            navigate('/home')
+    }, [token])
     
+    useEffect(() => {
+        console.log(profile)
+    }, [profile])
+
     const handleChange = (event) => {
         const { name, value } = event.target
 
@@ -28,29 +33,39 @@ export default function Register() {
             setPassowrd(value)
         else if (name === 'name')
             setName(value)
-        else if (name === 'profile_picture')
-            setProfile(value)
     }
 
+    const onFileChange = event => {
+        setProfile(event.target.files[0])
+    }
     const handleSubmit = (event) => {
-        event.preventDefault()
-
+        event.preventDefault();
+    
         if (!email || !password || !profile || !name)
-            return setError('Some fields are missing')
-
+            return setError('Some fields are missing');
+    
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('name', name);
+        formData.append('profilePicture', profile);  // Assuming 'profile' is the File object
+    
         fetch('http://localhost:8080/api/users', {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password, name, profile })
+            body: formData  // FormData will correctly set the Content-Type
         })
         .then(response => {
             if (response.ok) {
-                alert.alert('User Created Succuesfully')
-                navigate('/login', { replace: true })
-            } else 
-            setError('Server error, Please try again')
+                alert('User Created Successfully');
+                navigate('/login', { replace: true });
+            } else {
+                setError('Server error, Please try again');
+            }
         })
-    }
+        .catch(error => {
+            setError('Network error, Please try again');
+        });
+    };    
 
     return(
         <>
@@ -81,8 +96,7 @@ export default function Register() {
                         <input
                             type="file"
                             name="profile_picture"
-                            onChange={handleChange}
-                            value={profile}
+                            onChange={onFileChange}
                             placeholder="Profile Picture" />
                         <button  className="button full__button">Sign Up</button>
                         { error && <div className="form__error">{error}</div>}

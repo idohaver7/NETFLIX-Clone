@@ -15,8 +15,9 @@ export default function HomePage() {
     })
 
     useEffect(() => {
-        navigate('/home')
-    }, [])
+        if (token)
+            navigate('/home')
+    }, [token])
     
     return(
     <>

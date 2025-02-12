@@ -19,7 +19,7 @@ export default function UserLogged() {
     useEffect(() => {
         if (!token)
             navigate('/login', { replace: true })
-    })
+    }, [token])
 
     useEffect(() => {
         if (token) {
