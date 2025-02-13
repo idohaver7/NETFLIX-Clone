@@ -27,15 +27,17 @@ export default function MoviePlayer() {
     }, [movie])
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/movies/player/${id}`, {
+        fetch(`http://localhost:8080/api/movies/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token
               }
         })
+        .then(response => response.json())
         .then(data => {
-            setMovie(`http://localhost:8080/api/movies/player/${id}`)
+            console.log(data)
+            setMovie(`http://localhost:8080/video/${data.video}`)
             setLoading(false)
         })
     }, [id, token])

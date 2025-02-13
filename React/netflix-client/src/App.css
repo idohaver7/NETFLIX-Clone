@@ -895,3 +895,7 @@ body {
 .switch input {
   display: none;
 }
+
+.video__seek {
+  flex-grow: 1;
+}
