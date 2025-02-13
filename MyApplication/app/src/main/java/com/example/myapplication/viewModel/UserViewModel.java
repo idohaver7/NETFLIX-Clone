@@ -114,4 +114,22 @@ public class UserViewModel extends AndroidViewModel {
 
         Log.d("USER_VIEWMODEL", "User session saved: " + user.getName() + " | Manager: " + user.isManager());
     }
+
+    public void loadUserDetails() {
+        // Use the token stored in GlobalToken or SharedPreferences
+        String token = GlobalToken.token;
+        if (token != null && !token.isEmpty()) {
+            userRepository.fetchUserDetails(token).observeForever(fullUser -> {
+                if (fullUser != null) {
+                    loggedInUser.postValue(fullUser);
+                    Log.d("USER_VIEWMODEL", "User Retrieved via loadUserDetails: " + fullUser.getName());
+                } else {
+                    Log.e("USER_VIEWMODEL", "User details are null in loadUserDetails.");
+                }
+            });
+        } else {
+            Log.e("USER_VIEWMODEL", "No token found to fetch user details.");
+        }
+    }
+
 }

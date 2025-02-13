@@ -37,10 +37,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         if (movies != null) {
             Movie current = movies.get(position);
-            String assetImagePath = "file:///android_asset/movies/image/" + current.getImage();
-
+            String imageUrl = "http://10.0.2.2:8080/image/" + current.getImage();
             Glide.with(holder.itemView.getContext())
-                    .load(assetImagePath)
+                    .load(imageUrl)
                     .apply(new RequestOptions()
                             .placeholder(R.drawable.placeholder_movie)
                             .error(R.drawable.placeholder_movie)
