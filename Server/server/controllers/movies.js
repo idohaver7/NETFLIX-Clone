@@ -1,36 +1,6 @@
 const movieService = require('../services/movies');
 const categoryController = require('./category');
 const userService = require('../services/user');
-const path = require('path')
-const fs = require('fs')
-const fsPromises = require('fs').promises;
-
-
-
-const attachImageToMovie = async (movie) => {
-  // If there’s no movie or no image file name, simply return the movie.
-  if (!movie || !movie.image) return movie;
-  
-  try {
-    // Build the full path to the image file.
-    const imagePath = path.join(__dirname, `../public/image/${movie.image}`);
-    
-    // Read the file using promises.
-    const data = await fsPromises.readFile(imagePath);
-    
-    movie.image = `data:image/jpg;base64,${data.toString('base64')}`;
-  } catch (err) {
-    console.error(`Error reading image file for movie ${movie._id}:`, err);
-    movie.image = null;
-  }
-  return movie;
-};
-
-// Helper function to process an array of movies.
-const attachImagesToMovies = async (movies) => {
-  return Promise.all(movies.map(attachImageToMovie));
-};
-
 
 const createMovie = async (req, res) => {
   try {
@@ -71,15 +41,9 @@ const getMovies = async (req, res) => {
       return result;
     }, {});
 
-    // For each category group, update each movie with the Base64 image.
-    for (const category in moviesByPromotedCategory) {
-      moviesByPromotedCategory[category] = await attachImagesToMovies(moviesByPromotedCategory[category]);
-    }
-
     // Fetch the last 20 movies the user has watched.
     let lastWatchedMovies = await movieService.getLastWatchedMovies(req.userId);
     if (lastWatchedMovies.length > 0) {
-      lastWatchedMovies = await attachImagesToMovies(lastWatchedMovies);
       moviesByPromotedCategory['Last Watched'] = lastWatchedMovies;
     }
 
@@ -101,8 +65,6 @@ const getMovie = async (req, res) => {
       return res.status(404).json({ errors: ['Movie not found'] });
     }
 
-    // Attach the Base64 image using the helper.
-    movie = await attachImageToMovie(movie);
     return res.json(movie);
     
   } catch (error) {
@@ -149,7 +111,6 @@ const getRecommendedMovies = async (req, res) => {
     console.log(lines);
     if (lines[0] === "200 OK") {
       let recommendedMovies = JSON.parse(lines[2]);
-      recommendedMovies = await attachImagesToMovies(recommendedMovies);
       return res.status(200).json(recommendedMovies);
     }
     return res.status(404).json();
@@ -184,45 +145,16 @@ const addToRecommendedMovies = async (req, res) => {
 const searchMovies = async (req, res) => {
   try {
     let movies = await movieService.searchMovies(req.params.query);
-    movies = await attachImagesToMovies(movies);
     res.json(movies);
   } catch (error) {
     res.status(500).json({ errors: ['Internal Server Error'], details: error.message });
   }
 };
 
-
 const allMovies = async (req, res) => {
   const movies = await movieService.getMovies()
   res.status(200).json(movies)
 }
-
-const sendMovie = async (req, res) => {
-  try {
-    const movie = await movieService.getMovieById(req.params.id);
-    if (!movie) {
-      return res.status(404).send('Movie not found');
-    }
-
-    const videoPath = path.join(__dirname, `../public/videos/${movie.video}`);
-    if (!fs.existsSync(videoPath)) {
-      return res.status(404).send('Video file not found');
-    }
-
-    const stat = fs.statSync(videoPath);
-    const fileSize = stat.size;
-    const head = {
-      'Content-Length': fileSize,
-      'Content-Type': 'video/mp4',
-    };
-
-    res.writeHead(200, head);
-    fs.createReadStream(videoPath).pipe(res);
-  } catch (error) {
-    console.error('Error sending movie:', error);
-    res.status(500).send('Internal server error');
-  }
-};
 
 module.exports = { createMovie,
                      getMovies, 
@@ -233,5 +165,4 @@ module.exports = { createMovie,
                      addToRecommendedMovies, 
                      searchMovies, 
                      allMovies,
-                     sendMovie
                   };

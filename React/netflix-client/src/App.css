@@ -531,6 +531,10 @@ body {
   transition: 0.3s all ease;
 }
 
+.movie__card img {
+  transition: 0.3s all ease;
+}
+
 .movie__card:hover > img{
   transform: scale(1.2);
 }
@@ -894,4 +898,8 @@ body {
 /* Style to hide the default checkbox */
 .switch input {
   display: none;
+}
+
+.video__seek {
+  flex-grow: 1;
 }

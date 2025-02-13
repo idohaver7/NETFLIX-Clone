@@ -38,7 +38,6 @@ router.route('/:id/recommend')
 
 
 router.get('/all/movies', auth.verifyToken, movieController.allMovies)
-router.get('/player/:id', auth.verifyToken, movieController.sendMovie)
 router.get('/search/:query', auth.verifyToken, movieController.searchMovies);
 
 module.exports = router;

@@ -28,18 +28,8 @@ const getUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ errors: ['User not found'] });
         }
-        const imagePath = path.join(__dirname, `../public/profile/${user.email}`);
+        return res.status(200).json(user);
 
-        fs.readFile(imagePath, (err, data) => {
-          if (err) {
-            console.log("Failed to load image, sending user data without image");
-            return res.status(200).json(user); 
-          }
-          const imageBase64 = Buffer.from(data).toString('base64');
-          user.image = `data:image/jpg;base64,${imageBase64}`
-
-          return res.status(200).json(user);
-        });
     } catch (error) {
         res.status(400).json({ errors: ['Bad Request'], details: error.message });
     }
