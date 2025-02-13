@@ -95,12 +95,14 @@ export default function Header({showButtons, token }) {
                             </div>
                             {
                                 user.isManager && (
-                                    <Link to="/admin"><img className="userImage" src={user.profilePicture} /></Link>
+                                    <Link to="/admin">
+                                        <img className="userImage" src={`http://localhost:8080/profile/${user.profilePicture}`} />
+                                    </Link>
                                 )
                             }
                             {
                                 !user.isManager && (
-                                    <img className="userImage" src={user.profilePicture} />
+                                    <img className="userImage" src={`http://localhost:8080/profile/${user.profilePicture}`} />
                                 )
                             }
                         </>

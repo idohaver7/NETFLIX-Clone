@@ -531,6 +531,10 @@ body {
   transition: 0.3s all ease;
 }
 
+.movie__card img {
+  transition: 0.3s all ease;
+}
+
 .movie__card:hover > img{
   transform: scale(1.2);
 }
