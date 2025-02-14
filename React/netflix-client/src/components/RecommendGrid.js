@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import MovieHero from "./MovieHero"
+import { useNavigate } from "react-router-dom"
+import MovieCard from "./MovieCard"
 
 export default function RecommendedGrid({ token, id }) {
     const navigate = useNavigate()
@@ -16,11 +16,9 @@ export default function RecommendedGrid({ token, id }) {
                     'Authorization': token
                   }
             })
-            .then(response => {
-                if (response.ok)
-                    return response.json()
-            })
+            .then(response => response.json())
             .then(data => {
+                console.log(data)
                 setRecommendMovies(data)
                 if (data)
                     setLoading(false)
@@ -39,7 +37,13 @@ export default function RecommendedGrid({ token, id }) {
 
     return(
         <>
-
+            <div className="movies__recommend_grid">
+                {
+                    recommendMovies.map(movie => {
+                        return(<MovieCard key={movie._id} movie={movie} isCompact={true} />)
+                    })
+                }
+            </div>
         </>
     )
 }

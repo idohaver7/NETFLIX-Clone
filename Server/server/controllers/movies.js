@@ -104,15 +104,15 @@ const deleteMovie = async (req, res) => {
 const getRecommendedMovies = async (req, res) => {
   try {
     const response = await movieService.getRecommendedMovies(req.params.id, req.userId);
+
     if (!response) {
       return res.status(404).json({ errors: ['Movie or UserId not found'] });
     }
-    const lines = response.split('\n');
-    console.log(lines);
-    if (lines[0] === "200 OK") {
-      let recommendedMovies = JSON.parse(lines[2]);
-      return res.status(200).json(recommendedMovies);
+
+    if (response && response.length > 0) {
+      return res.status(200).json(response);
     }
+
     return res.status(404).json();
   } catch (error) {
     res.status(500).json({ errors: ['Internal Server Error'], details: error.message });
