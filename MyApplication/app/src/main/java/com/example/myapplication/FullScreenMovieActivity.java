@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplication.api.RetrofitClient;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
@@ -17,6 +19,8 @@ import com.google.android.exoplayer2.upstream.AssetDataSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.ui.PlayerView;
+
+import retrofit2.Retrofit;
 
 public class FullScreenMovieActivity extends AppCompatActivity {
     private ExoPlayer player;
@@ -44,7 +48,7 @@ public class FullScreenMovieActivity extends AppCompatActivity {
         player = new ExoPlayer.Builder(this).build();
         playerView.setPlayer(player);
         // Create media source
-        MediaItem mediaItem = MediaItem.fromUri(Uri.parse("file:///android_asset/movies/video/" + videoFileName));
+        MediaItem mediaItem = MediaItem.fromUri(RetrofitClient.getBase_Url()+ "video/" + videoFileName);
 
         // Set the media source to the player
         player.setMediaItem(mediaItem);

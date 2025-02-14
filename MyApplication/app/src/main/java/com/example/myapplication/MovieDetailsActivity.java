@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.adapters.CategoryAdapter;
 import com.example.myapplication.adapters.MovieAdapter;
+import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.databinding.ActivityMovieDetailsBinding;
 import com.example.myapplication.entities.Movie;
 import com.example.myapplication.repositories.MovieRepository;
@@ -61,7 +62,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 movieDescription.setText(movie.getDescription());
 
                 // Load movie image (Full Width)
-                String imagePath = "file:///android_asset/movies/image/" + movie.getImage();
+                String imagePath = RetrofitClient.getBase_Url()+ "image/" + movie.getImage();
                 Glide.with(this)
                         .load(imagePath)
                         .placeholder(R.drawable.placeholder_movie)
