@@ -5,7 +5,7 @@ export default function MovieHeroVideo({ movie }) {
     
     return (
         <div className="movieHero__wrapper">
-            <video autoPlay loop muted className="background__video" src={`/movies/video/${movie.video}`}>
+            <video autoPlay loop muted className="background__video" src={`http://localhost:8080/video/${movie.video}`}>
                 Your browser does not support the video tag.
             </video>
             <div className="movieHero__content container">

@@ -32,7 +32,7 @@ export default function MoviePlayer() {
             setMovie(data)
             setLoading(false)
         })
-    }, [])
+    }, [id])
 
     if (loading)
         return(

@@ -426,6 +426,7 @@ body {
   justify-content: flex-start;
   padding-bottom: 5rem;
   position: relative;
+  transition: 0.5s all ease;
 }
 
 .movieHero__wrapper::before {
@@ -442,6 +443,10 @@ body {
   width: 100%;
   position: relative;
   z-index: 2;
+}
+
+.movieHero__content > * {
+  transition: 0.5s all ease;
 }
 
 .movieHero__content h1 {
@@ -902,4 +907,10 @@ body {
 
 .video__seek {
   flex-grow: 1;
+}
+
+.movies__recommend_grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px
 }

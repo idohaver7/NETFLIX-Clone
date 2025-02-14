@@ -16,7 +16,8 @@ export default function MoviePlayer() {
     const [volume, setVolume] = useState(1);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-
+    const [watched, setWatched] = useState(false)
+    
     useEffect(() => {
         if (!token)
             navigate('/login', { replace: true })
@@ -67,6 +68,19 @@ export default function MoviePlayer() {
             };
         }
     }, [movie]);
+
+    useEffect(() => {
+        if (!watched && (duration - currentTime) < 30) {
+            fetch(`http://localhost:8080/api/movies/${id}/recommend`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                }
+            })
+            setWatched(true)
+        }
+    }, [currentTime])
 
     const togglePlay = () => {
         const video = videoRef.current;
