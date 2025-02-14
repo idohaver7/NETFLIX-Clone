@@ -30,8 +30,16 @@ public interface WebServiceApi {
     Call<JsonObject> login(@Body JsonObject credentials);
 
     // Create a new user
+    @Multipart
     @POST("api/users")
-    Call<JsonObject> createUser(@Body JsonObject user);
+    Call<JsonObject> createUser(
+            @Part("name") RequestBody name,
+            @Part("email") RequestBody email,
+            @Part("password") RequestBody password,
+            @Part("age") RequestBody age,
+            @Part MultipartBody.Part profilePicture
+    );
+
 
     // Get user by ID
     @GET("api/users/{id}")
@@ -47,8 +55,17 @@ public interface WebServiceApi {
     Call<Map<String, List<Movie>>> getMoviesByCategory(@Header("Authorization") String token);
 
     //Add Movie by manager
+    @Multipart
     @POST("api/movies")
-    Call<JsonObject> createMovie(@Header("Authorization") String token, @Body JsonObject movie);
+    Call<JsonObject> createMovie(
+            @Header("Authorization") String token,
+            @Part("title") RequestBody title,
+            @Part("category") RequestBody category,
+            @Part("description") RequestBody description,
+            @Part MultipartBody.Part video,
+            @Part MultipartBody.Part image
+    );
+
 
     //Get Movie by ID
     @GET("api/movies/{id}")

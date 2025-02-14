@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
@@ -21,15 +23,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.myapplication.adapters.CategoryAdapter;
 import com.example.myapplication.entities.Movie;
 import com.example.myapplication.manager.ManagementActivity;
 import com.example.myapplication.viewModel.MovieViewModel;
+import com.example.myapplication.viewModel.UserViewModel;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.ui.PlayerView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -58,6 +65,14 @@ public class AfterLogInActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Initialize Toolbar & Menu References FIRST
+        darkModeToggle = findViewById(R.id.darkModeToggle);
+        profileIcon = findViewById(R.id.profileIcon);
+        signOutText = findViewById(R.id.signOutText);
+        cancelText = findViewById(R.id.cancelText);
+        signOutMenu = findViewById(R.id.signOutMenu);
+        managementOption = findViewById(R.id.managementOption);
+
         // Initialize RecyclerView
         categoryRecyclerView = findViewById(R.id.categoryRecyclerView);
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -65,11 +80,12 @@ public class AfterLogInActivity extends AppCompatActivity {
         // Initialize Adapter
         categoryAdapter = new CategoryAdapter();
         categoryRecyclerView.setAdapter(categoryAdapter);
-        //Initialize Player
+
+        // Initialize Player
         playerView = findViewById(R.id.playerLittleMovie);
         playerView.setUseController(false);
 
-        // Initialize ViewModel
+        // Initialize MovieViewModel
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         movieViewModel.getMovies().observe(this, movies -> {
             categoryAdapter.setMoviesByCategory(movies);
@@ -83,13 +99,46 @@ public class AfterLogInActivity extends AppCompatActivity {
         });
         movieViewModel.fetchMovies();
 
-        // Toolbar & Menu References
-        darkModeToggle = findViewById(R.id.darkModeToggle);
-        profileIcon = findViewById(R.id.profileIcon);
-        signOutText = findViewById(R.id.signOutText);
-        cancelText = findViewById(R.id.cancelText);
-        signOutMenu = findViewById(R.id.signOutMenu);
-        managementOption = findViewById(R.id.managementOption);
+        UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.loadUserDetails();
+        userViewModel.getLoggedInUser().observe(this, user -> {
+            if (user != null) {
+                String profilePicture = user.getProfilePicture();
+                if (profilePicture != null && !profilePicture.isEmpty()) {
+                    // Normalize slashes: replace all "\" with "/"
+                    profilePicture = profilePicture.replace("\\", "/");
+                    // Remove the "public/" prefix if it exists (use "public/" with forward slash)
+                    if (profilePicture.startsWith("public/")) {
+                        profilePicture = profilePicture.substring("public/".length());
+                    }
+                    // Build the URL without the "public/" part
+                    String imageUrl = "http://10.0.2.2:8080/" + profilePicture;
+                    Log.d("PROFILE_PIC", "URL: " + imageUrl);
+                    Glide.with(AfterLogInActivity.this)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.ic_user)
+                            .error(R.drawable.ic_user)
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    Log.e("GLIDE_ERROR", "Failed to load image", e);
+                                    return false; // Allow fallback to error drawable.
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    return false;
+                                }
+                            })
+                            .into(profileIcon);
+                } else {
+                    profileIcon.setImageResource(R.drawable.ic_user);
+                }
+            }
+        });
+
+
+
 
 
         // Check if the user is a manager
@@ -116,7 +165,6 @@ public class AfterLogInActivity extends AppCompatActivity {
             Intent intent = new Intent(AfterLogInActivity.this, SearchMovieActivity.class);
             startActivity(intent);
         });
-
     }
 
     private void checkIfManager() {
@@ -178,7 +226,6 @@ public class AfterLogInActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
-
         // Save user preference
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("DarkMode", !isDarkMode);
@@ -212,10 +259,8 @@ public class AfterLogInActivity extends AppCompatActivity {
     private void initializePlayer(String videoFileName) {
         player = new ExoPlayer.Builder(this).build();
         playerView.setPlayer(player);
-        // Create media source
+        // Create media source from the server if needed, or continue using assets
         MediaItem mediaItem = MediaItem.fromUri(Uri.parse("file:///android_asset/movies/video/" + videoFileName));
-
-        // Set the media source to the player
         player.setMediaItem(mediaItem);
         player.prepare();
         player.play();
@@ -225,18 +270,17 @@ public class AfterLogInActivity extends AppCompatActivity {
         if (moviesByCategory != null && !moviesByCategory.isEmpty()) {
             // Flatten and filter the list
             List<Movie> allMovies = moviesByCategory.values().stream()
-                    .filter(Objects::nonNull) // Ensure sublists are not null
-                    .flatMap(List::stream)    // Flatten the lists
-                    .filter(movie -> movie != null && !"Guardians_Of_The_Galaxy.mp4".equals(movie.getVideo())) //most of the movies videos are this video
+                    .filter(Objects::nonNull)
+                    .flatMap(List::stream)
+                    .filter(movie -> movie != null && !"Guardians_Of_The_Galaxy.mp4".equals(movie.getVideo()))
                     .collect(Collectors.toList());
 
-            // Check if there are any movies left after filtering
             if (!allMovies.isEmpty()) {
                 Random random = new Random();
-                return allMovies.get(random.nextInt(allMovies.size())); // Return a random movie
+                return allMovies.get(random.nextInt(allMovies.size()));
             }
         }
-        return null; // Return null if no suitable movie is found
+        return null;
     }
 
     @Override
@@ -248,18 +292,17 @@ public class AfterLogInActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Reinitialize the player since it was stopped or released
         if (movieString != null) {
-            initializePlayer(movieString);  // Assume movieString holds your current movie
+            initializePlayer(movieString);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (player != null) {
-            player.release();  // Release the player
+            player.release();
             player = null;
         }
     }
-
 }

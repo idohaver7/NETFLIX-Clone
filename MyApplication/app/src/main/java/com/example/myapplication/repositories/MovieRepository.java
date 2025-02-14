@@ -1,6 +1,7 @@
 package com.example.myapplication.repositories;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import com.example.myapplication.api.MoviesApi;
@@ -22,7 +23,7 @@ public class MovieRepository {
 
     public MovieRepository(Context context) {
         MovieDB db = MovieDB.getInstance(context);
-        this.moviesApi = new MoviesApi();
+        this.moviesApi = new MoviesApi(context);
         this.movieDao = db.movieDao();
     }
 
@@ -96,31 +97,31 @@ public class MovieRepository {
 
 
 
-    public MutableLiveData<Boolean> createMovie(Movie movie) {
+    public MutableLiveData<Boolean> createMovie(Movie movie, Uri videoUri, Uri imageUri) {
         MutableLiveData<Boolean> isCreatedLiveData = new MutableLiveData<>();
-        JsonObject movieJson = new JsonObject();
-        movieJson.addProperty("id", ""); // Leave empty so backend generates the ID.
-        movieJson.addProperty("title", movie.getTitle());
-        // Send the category as a simple string (its ObjectId).
-        movieJson.addProperty("category", movie.getCategory().getId());
-        movieJson.addProperty("video", movie.getVideo());
-        movieJson.addProperty("description", movie.getDescription());
-        movieJson.addProperty("image", movie.getImage());
-        Log.d("MOVIE_JSON", movieJson.toString());
-        moviesApi.createMovie(GlobalToken.token, movieJson, new MoviesApi.MovieActionCallback() {
-            @Override
-            public void onSuccess() {
-                Log.d("MOVIE_REPO", "Movie created successfully!");
-                isCreatedLiveData.postValue(true);
-            }
-            @Override
-            public void onError(String error) {
-                Log.e("MOVIE_REPO", "Movie creation failed: " + error);
-                isCreatedLiveData.postValue(false);
-            }
-        });
+        String token = GlobalToken.token;
+        // Call the new multipart method.
+        moviesApi.createMovieMultipart(token,
+                movie.getTitle(),
+                movie.getCategory().getId(),
+                movie.getDescription(),
+                videoUri,
+                imageUri,
+                new MoviesApi.MovieActionCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d("MOVIE_REPO", "Movie created successfully!");
+                        isCreatedLiveData.postValue(true);
+                    }
+                    @Override
+                    public void onError(String error) {
+                        Log.e("MOVIE_REPO", "Movie creation failed: " + error);
+                        isCreatedLiveData.postValue(false);
+                    }
+                });
         return isCreatedLiveData;
     }
+
 
     // New updateMovie() method.
     public MutableLiveData<Boolean> updateMovie(Movie movie) {

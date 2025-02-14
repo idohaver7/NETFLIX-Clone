@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,6 +104,8 @@ public class SignUpActivity extends AppCompatActivity {
             String password = passwordEditText.getText().toString().trim();
             String ageText = ageEditText.getText().toString().trim();
 
+            Log.d("SIGN_UP", "Name: " + name + ", Email: " + email + ", Age: " + ageText);
+
             if (name.isEmpty() || email.isEmpty() || password.isEmpty() || ageText.isEmpty()) {
                 Toast.makeText(SignUpActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
@@ -110,8 +113,16 @@ public class SignUpActivity extends AppCompatActivity {
 
             int age = Integer.parseInt(ageText);
 
-            // Pass data to ViewModel for API call
-            userViewModel.signUpUser(name, email, password, age, selectedImageUri != null ? selectedImageUri.toString() : "");
+            if (selectedImageUri != null) {
+                Log.d("SIGN_UP", "Selected image URI: " + selectedImageUri.toString());
+            } else {
+                Log.d("SIGN_UP", "No image selected");
+            }
+
+            // Pass the actual image URI to the ViewModel
+            userViewModel.signUpUser(name, email, password, age, selectedImageUri);
         });
+
+
     }
 }
