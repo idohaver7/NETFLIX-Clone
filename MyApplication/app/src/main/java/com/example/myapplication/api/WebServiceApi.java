@@ -55,8 +55,17 @@ public interface WebServiceApi {
     Call<Map<String, List<Movie>>> getMoviesByCategory(@Header("Authorization") String token);
 
     //Add Movie by manager
+    @Multipart
     @POST("api/movies")
-    Call<JsonObject> createMovie(@Header("Authorization") String token, @Body JsonObject movie);
+    Call<JsonObject> createMovie(
+            @Header("Authorization") String token,
+            @Part("title") RequestBody title,
+            @Part("category") RequestBody category,
+            @Part("description") RequestBody description,
+            @Part MultipartBody.Part video,
+            @Part MultipartBody.Part image
+    );
+
 
     //Get Movie by ID
     @GET("api/movies/{id}")

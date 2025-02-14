@@ -1,10 +1,19 @@
 package com.example.myapplication.api;
 
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import com.example.myapplication.entities.Movie;
+import com.example.myapplication.utils.FileUtils;
 import com.google.gson.JsonObject;
+
+import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,13 +22,15 @@ import retrofit2.Retrofit;
 public class MoviesApi {
     private final WebServiceApi webServiceApi;
     private final Retrofit retrofit;
+    private Context context;
 
-    public MoviesApi() {
+    public MoviesApi(Context context) {
+        this.context = context;
         this.retrofit = RetrofitClient.getInstance();
         this.webServiceApi = retrofit.create(WebServiceApi.class);
     }
 
-    // Alternate constructor for testing.
+    // Alternate constructor if needed.
     public MoviesApi(Retrofit retrofit) {
         this.retrofit = retrofit;
         this.webServiceApi = retrofit.create(WebServiceApi.class);
@@ -49,25 +60,64 @@ public class MoviesApi {
     /**
      * Create a movie using a JSON payload.
      */
-    public void createMovie(String token, JsonObject movie, MovieActionCallback callback) {
+    public void createMovieMultipart(String token,
+                                     String title,
+                                     String category,
+                                     String description,
+                                     Uri videoUri,
+                                     Uri imageUri,
+                                     MovieActionCallback callback) {
         String authToken = "Bearer " + token;
-        webServiceApi.createMovie(authToken, movie).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    Log.d("API_RESPONSE", "Movie created successfully.");
-                    callback.onSuccess();
-                } else {
-                    Log.e("API_ERROR", "Failed to create movie. Response Code: " + response.code());
-                    callback.onError("Failed to create movie.");
-                }
+        RequestBody titleBody = RequestBody.create(MediaType.parse("text/plain"), title);
+        RequestBody categoryBody = RequestBody.create(MediaType.parse("text/plain"), category);
+        RequestBody descriptionBody = RequestBody.create(MediaType.parse("text/plain"), description);
+
+        // Prepare video part.
+        MultipartBody.Part videoPart = null;
+        if (videoUri != null) {
+            File videoFile = FileUtils.createTempFileFromUri(context, videoUri, ".mp4");
+            if (videoFile != null) {
+                Log.d("MOVIES_API", "Video temp file: " + videoFile.getAbsolutePath());
+                RequestBody videoReq = RequestBody.create(MediaType.parse("video/mp4"), videoFile);
+                videoPart = MultipartBody.Part.createFormData("video", videoFile.getName(), videoReq);
+            } else {
+                Log.e("MOVIES_API", "Failed to create temp file for video");
             }
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e("API_ERROR", "Network error: " + t.getMessage());
-                callback.onError("Network error: " + t.getMessage());
+        }
+
+        // Prepare image part.
+        MultipartBody.Part imagePart = null;
+        if (imageUri != null) {
+            File imageFile = FileUtils.createTempFileFromUri(context, imageUri, ".jpg");
+            if (imageFile != null) {
+                Log.d("MOVIES_API", "Image temp file: " + imageFile.getAbsolutePath());
+                RequestBody imageReq = RequestBody.create(MediaType.parse("image/*"), imageFile);
+                imagePart = MultipartBody.Part.createFormData("image", imageFile.getName(), imageReq);
+            } else {
+                Log.e("MOVIES_API", "Failed to create temp file for image");
             }
-        });
+        }
+
+        // Enqueue the multipart request.
+        webServiceApi.createMovie(authToken, titleBody, categoryBody, descriptionBody, videoPart, imagePart)
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("API_RESPONSE", "Movie created successfully.");
+                            callback.onSuccess();
+                        } else {
+                            Log.e("API_ERROR", "Failed to create movie. Response Code: " + response.code());
+                            callback.onError("Failed to create movie.");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.e("API_ERROR", "Network error: " + t.getMessage());
+                        callback.onError("Network error: " + t.getMessage());
+                    }
+                });
     }
 
     /**

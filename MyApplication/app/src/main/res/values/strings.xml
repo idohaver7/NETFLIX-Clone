@@ -28,4 +28,5 @@
     <string name="membership_hint">Membership Type</string>
     <string name="baseUrl">\"http://10.0.2.2:8080/\"</string>
     <string name="Authorization">\"Authorization\"</string>
+    <string name="select_category_prompt">Select the category of the movie</string>
 </resources>

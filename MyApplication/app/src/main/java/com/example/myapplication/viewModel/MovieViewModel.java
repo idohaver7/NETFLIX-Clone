@@ -1,6 +1,7 @@
 package com.example.myapplication.viewModel;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -52,9 +53,10 @@ public class MovieViewModel extends AndroidViewModel {
     public void getRecommendedMovies(String movieId) {
         movieRepository.getRecommendedMovies(movieId);
     }
-    public LiveData<Boolean> createMovie(Movie movie) {
-        return movieRepository.createMovie(movie);
+    public LiveData<Boolean> createMovie(Movie movie, Uri videoUri, Uri imageUri) {
+        return movieRepository.createMovie(movie, videoUri, imageUri);
     }
+
 
     public LiveData<Boolean> updateMovie(Movie movie) {
         return movieRepository.updateMovie(movie);

@@ -134,13 +134,13 @@ public class FileUtils {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
-    public static File createTempFileFromUri(Context context, Uri uri) {
+    public static File createTempFileFromUri(Context context, Uri uri, String extension) {
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
             if (inputStream == null) return null;
 
-            // Create a temporary file with a .jpg extension in the cache directory
-            File tempFile = File.createTempFile("upload", ".jpg", context.getCacheDir());
+            // Create a temporary file with the provided extension in the cache directory.
+            File tempFile = File.createTempFile("upload", extension, context.getCacheDir());
             OutputStream outputStream = new FileOutputStream(tempFile);
             byte[] buffer = new byte[4096];
             int bytesRead;
@@ -155,5 +155,6 @@ public class FileUtils {
             return null;
         }
     }
+
 
 }

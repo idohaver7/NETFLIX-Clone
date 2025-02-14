@@ -110,7 +110,7 @@ public class UserApi {
         MultipartBody.Part imagePart = null;
         if (imageUri != null) {
             // Use our helper function to copy the content from the URI to a temporary file
-            File tempFile = FileUtils.createTempFileFromUri(context, imageUri);
+            File tempFile = FileUtils.createTempFileFromUri(context, imageUri, ".jpg");
             if (tempFile != null) {
                 Log.d("USER_API", "Temp file created: " + tempFile.getAbsolutePath() + ", exists: " + tempFile.exists());
                 RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), tempFile);
