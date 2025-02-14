@@ -105,7 +105,9 @@ public class AfterLogInActivity extends AppCompatActivity {
             if (user != null) {
                 String profilePicture = user.getProfilePicture();
                 if (profilePicture != null && !profilePicture.isEmpty()) {
-                    // Remove the "public/" prefix if it exists
+                    // Normalize slashes: replace all "\" with "/"
+                    profilePicture = profilePicture.replace("\\", "/");
+                    // Remove the "public/" prefix if it exists (use "public/" with forward slash)
                     if (profilePicture.startsWith("public/")) {
                         profilePicture = profilePicture.substring("public/".length());
                     }
@@ -134,6 +136,7 @@ public class AfterLogInActivity extends AppCompatActivity {
                 }
             }
         });
+
 
 
 

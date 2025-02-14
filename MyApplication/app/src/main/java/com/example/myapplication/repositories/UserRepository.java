@@ -1,6 +1,7 @@
 package com.example.myapplication.repositories;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import com.example.myapplication.api.UserApi;
@@ -18,7 +19,7 @@ public class UserRepository {
 
     public UserRepository(Context context) {
         UserDB db = UserDB.getInstance(context);
-        this.userApi = new UserApi();
+        this.userApi = new UserApi(context);
         this.userDao = db.userDao();
     }
 
@@ -63,19 +64,23 @@ public class UserRepository {
         return userLiveData;
     }
 
-    public void createUser(String name, String email, String password, int age, String profilePicture, UserRepository.UserCallback callback) {
+    public void createUser(String name, String email, String password, int age, Uri profilePicture, UserCallback callback) {
+        Log.d("USER_REPO", "Creating user with name: " + name + ", email: " + email + ", age: " + age);
         userApi.createUser(name, email, password, age, profilePicture, new UserApi.UserCallback() {
             @Override
             public void onSuccess(User user) {
+                Log.d("USER_REPO", "User creation successful");
                 callback.onSuccess(user);
             }
 
             @Override
             public void onError(String error) {
+                Log.e("USER_REPO", "User creation error: " + error);
                 callback.onError(error);
             }
         });
     }
+
 
 
     public MutableLiveData<User> getUserLiveData() {

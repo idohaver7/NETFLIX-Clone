@@ -3,6 +3,7 @@ package com.example.myapplication.viewModel;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -71,19 +72,24 @@ public class UserViewModel extends AndroidViewModel {
     }
 
     // ✅ Sign-Up Method
-    public void signUpUser(String name, String email, String password, int age, String profilePicture) {
-        userRepository.createUser(name, email, password, age, profilePicture, new UserRepository.UserCallback() {
+    public void signUpUser(String name, String email, String password, int age, Uri profileImageUri) {
+        Log.d("USER_VIEWMODEL", "signUpUser called with name: " + name + ", email: " + email);
+        userRepository.createUser(name, email, password, age, profileImageUri, new UserRepository.UserCallback() {
             @Override
             public void onSuccess(User user) {
+                Log.d("USER_VIEWMODEL", "User sign-up successful");
                 signUpSuccess.setValue(true);
             }
 
             @Override
             public void onError(String error) {
+                Log.e("USER_VIEWMODEL", "User sign-up error: " + error);
                 errorMessage.setValue(error);
             }
         });
     }
+
+
 
     // ✅ Logout (Clear Session)
     public void logout() {

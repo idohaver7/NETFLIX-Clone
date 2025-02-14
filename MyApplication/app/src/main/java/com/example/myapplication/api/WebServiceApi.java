@@ -30,8 +30,16 @@ public interface WebServiceApi {
     Call<JsonObject> login(@Body JsonObject credentials);
 
     // Create a new user
+    @Multipart
     @POST("api/users")
-    Call<JsonObject> createUser(@Body JsonObject user);
+    Call<JsonObject> createUser(
+            @Part("name") RequestBody name,
+            @Part("email") RequestBody email,
+            @Part("password") RequestBody password,
+            @Part("age") RequestBody age,
+            @Part MultipartBody.Part profilePicture
+    );
+
 
     // Get user by ID
     @GET("api/users/{id}")

@@ -1,11 +1,18 @@
 package com.example.myapplication.api;
 
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import com.example.myapplication.entities.User;
+import com.example.myapplication.utils.FileUtils;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,8 +21,11 @@ import retrofit2.Retrofit;
 public class UserApi {
     private final WebServiceApi webServiceApi;
     private final Retrofit retrofit;
+    private Context context; // Store the context
 
-    public UserApi() {
+
+    public UserApi(Context context) {
+        this.context = context;
         this.retrofit = RetrofitClient.getInstance();
         this.webServiceApi = retrofit.create(WebServiceApi.class);
     }
@@ -90,33 +100,55 @@ public class UserApi {
 
 
 
-    public void createUser(String name, String email, String password, int age, String profilePicture, UserCallback callback) {
-        JsonObject user = new JsonObject();
-        user.addProperty("name", name);
-        user.addProperty("email", email);
-        user.addProperty("password", password);
-        user.addProperty("age", age);
-        user.addProperty("profilePicture", profilePicture);
+    public void createUser(String name, String email, String password, int age, Uri imageUri, UserCallback callback) {
+        // Create RequestBody for text fields
+        RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), name);
+        RequestBody emailBody = RequestBody.create(MediaType.parse("text/plain"), email);
+        RequestBody passwordBody = RequestBody.create(MediaType.parse("text/plain"), password);
+        RequestBody ageBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(age));
 
-        webServiceApi.createUser(user).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    Log.d("API_RESPONSE", "User created successfully.");
-                    callback.onSuccess(null);
-                } else {
-                    Log.e("API_ERROR", "Sign-up failed: " + response.errorBody());
-                    callback.onError("Sign-up failed: " + response.code());
-                }
+        MultipartBody.Part imagePart = null;
+        if (imageUri != null) {
+            // Use our helper function to copy the content from the URI to a temporary file
+            File tempFile = FileUtils.createTempFileFromUri(context, imageUri);
+            if (tempFile != null) {
+                Log.d("USER_API", "Temp file created: " + tempFile.getAbsolutePath() + ", exists: " + tempFile.exists());
+                RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), tempFile);
+                imagePart = MultipartBody.Part.createFormData("profilePicture", tempFile.getName(), reqFile);
+            } else {
+                Log.e("USER_API", "Failed to create temp file from URI: " + imageUri.toString());
             }
+        } else {
+            Log.d("USER_API", "No image URI provided");
+        }
 
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e("API_ERROR", "Network error: " + t.getMessage());
-                callback.onError("Network error: " + t.getMessage());
-            }
-        });
+        webServiceApi.createUser(nameBody, emailBody, passwordBody, ageBody, imagePart)
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("API_RESPONSE", "User created successfully.");
+                            callback.onSuccess(null);
+                        } else {
+                            try {
+                                Log.e("API_ERROR", "Sign-up failed: " + response.errorBody().string());
+                            } catch (Exception e) {
+                                Log.e("API_ERROR", "Sign-up failed: " + response.code());
+                            }
+                            callback.onError("Sign-up failed: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.e("API_ERROR", "Network error: " + t.getMessage());
+                        callback.onError("Network error: " + t.getMessage());
+                    }
+                });
     }
+
+
+
 
     public interface LoginCallback {
         void onSuccess(String token);
