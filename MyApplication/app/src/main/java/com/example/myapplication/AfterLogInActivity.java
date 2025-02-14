@@ -29,6 +29,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.myapplication.adapters.CategoryAdapter;
+import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.entities.Movie;
 import com.example.myapplication.manager.ManagementActivity;
 import com.example.myapplication.viewModel.MovieViewModel;
@@ -112,7 +113,7 @@ public class AfterLogInActivity extends AppCompatActivity {
                         profilePicture = profilePicture.substring("public/".length());
                     }
                     // Build the URL without the "public/" part
-                    String imageUrl = "http://10.0.2.2:8080/" + profilePicture;
+                    String imageUrl = RetrofitClient.getBase_Url() + profilePicture;
                     Log.d("PROFILE_PIC", "URL: " + imageUrl);
                     Glide.with(AfterLogInActivity.this)
                             .load(imageUrl)
@@ -260,7 +261,7 @@ public class AfterLogInActivity extends AppCompatActivity {
         player = new ExoPlayer.Builder(this).build();
         playerView.setPlayer(player);
         // Create media source from the server if needed, or continue using assets
-        MediaItem mediaItem = MediaItem.fromUri(Uri.parse("file:///android_asset/movies/video/" + videoFileName));
+        MediaItem mediaItem = MediaItem.fromUri(RetrofitClient.getBase_Url()+"video/" + videoFileName);
         player.setMediaItem(mediaItem);
         player.prepare();
         player.play();
