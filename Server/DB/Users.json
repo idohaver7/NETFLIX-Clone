@@ -1,0 +1,97 @@
+[
+    {
+    "_id": "6793a3c58a7a50408eb9a344",
+    "email": "tommy",
+    "password": "11111",
+    "profilePicture": "https://cs.biu.ac.il/sites/cs/files/styles/470x316_rectangle/public/images/person/%D7%98%D7%95%D7%9E%D7%99%20%D7%A9%D7%9E%D7%95%D7%90%D7%9C%20%D7%A7%D7%9C%D7%99%D7%99%D7%9F%201.jpg?itok=tIQlFZPt",
+    "name": "Tommy",
+    "watchedMovies": [
+      "67a48c1a5fbd09fba1aaf89f",
+      "67a48c8b5fbd09fba1aaf8a1",
+      "67a48e9d5fbd09fba1aaf8a9",
+      "67a48f125fbd09fba1aaf8ab",
+      "67a490135fbd09fba1aaf8af",
+      "67a491c15fbd09fba1aaf8b3",
+      "67a4922d5fbd09fba1aaf8b5",
+      "67a493435fbd09fba1aaf8bb",
+      "67a494595fbd09fba1aaf8c1",
+      "67a495475fbd09fba1aaf8c5",
+      "67a497645fbd09fba1aaf8cf",
+      "6793b00aab4c49ea057756be",
+      "6793af9eab4c49ea057756ba",
+      "6793af5fab4c49ea057756b8",
+      "6793afe7ab4c49ea057756bc",
+      "6793b07eab4c49ea057756c0"
+    ],
+    "isManager": false,
+    "__v": 0
+  },
+  {
+    "_id": "6793a4f78a7a50408eb9a346",
+    "email": "admin",
+    "password": "123123",
+    "profilePicture": "https://cs.biu.ac.il/sites/cs/files/styles/470x316_rectangle/public/images/person/%D7%92%D7%9C%20%D7%A7%D7%9E%D7%99%D7%A0%D7%A7%D7%90%202.jpg?itok=SLTkYqQV",
+    "name": "Kaminka",
+    "watchedMovies": [
+      "6793b00aab4c49ea057756be",
+      "6793b07eab4c49ea057756c0",
+      "67a4896c5fbd09fba1aaf897",
+      "67a48b845fbd09fba1aaf89d",
+      "67a48c8b5fbd09fba1aaf8a1",
+      "67a491c15fbd09fba1aaf8b3",
+      "67a4926b5fbd09fba1aaf8b7",
+      "67a493b05fbd09fba1aaf8bd",
+      "67a4949f5fbd09fba1aaf8c3",
+      "67a495475fbd09fba1aaf8c5",
+      "67a497175fbd09fba1aaf8cd",
+      "67a497645fbd09fba1aaf8cf",
+      "67a48c1a5fbd09fba1aaf89f",
+      "6793afe7ab4c49ea057756bc",
+      "67a493435fbd09fba1aaf8bb",
+      "6793af5fab4c49ea057756b8"
+    ],
+    "isManager": true,
+    "__v": 0
+  },
+  {
+    "_id": "67961256679336c429673643",
+    "email": "check@gmail.com",
+    "password": "123123",
+    "profilePicture": "https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg",
+    "name": "nir",
+    "watchedMovies": [
+      "67a48c8b5fbd09fba1aaf8a1",
+      "67a48f125fbd09fba1aaf8ab",
+      "67a490f65fbd09fba1aaf8b1",
+      "67a491c15fbd09fba1aaf8b3",
+      "67a4922d5fbd09fba1aaf8b5",
+      "67a4926b5fbd09fba1aaf8b7",
+      "67a493b05fbd09fba1aaf8bd",
+      "67a494595fbd09fba1aaf8c1",
+      "67a495475fbd09fba1aaf8c5",
+      "67a497645fbd09fba1aaf8cf"
+    ],
+    "isManager": false,
+    "__v": 0
+  },
+  {
+    "_id": "67aca51b364da9d0a1a8cf88",
+    "email": "bdika45@gmail.com",
+    "password": "ndola123",
+    "profilePicture": "public/profile/bdika45@gmail.com.png",
+    "name": "bdika 222",
+    "watchedMovies": [],
+    "isManager": false,
+    "__v": 0
+  },
+  {
+    "_id": "67b0acc29054dcb39eda9aff",
+    "email": "bakbuk@gmail.com",
+    "password": "11111",
+    "profilePicture": "public\\profile\\bakbuk@gmail.com.jpg",
+    "name": "bakbuk",
+    "watchedMovies": [],
+    "isManager": false,
+    "__v": 0
+  }
+]

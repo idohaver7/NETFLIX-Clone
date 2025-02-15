@@ -1,0 +1,92 @@
+[
+    {
+      "_id": "6793acbc79f1012a8b7a71fe",
+      "name": "Comedia",
+      "promoted": true,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad0579f1012a8b7a7200",
+      "name": "Kids",
+      "promoted": true,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad1279f1012a8b7a7202",
+      "name": "Action",
+      "promoted": true,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad1d79f1012a8b7a7204",
+      "name": "Drama",
+      "promoted": true,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad4679f1012a8b7a7206",
+      "name": "Fantasy",
+      "promoted": false,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad4b79f1012a8b7a7208",
+      "name": "Horror",
+      "promoted": false,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad5179f1012a8b7a720a",
+      "name": "Adventure",
+      "promoted": true,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad5479f1012a8b7a720c",
+      "name": "Crime",
+      "promoted": false,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad5b79f1012a8b7a720e",
+      "name": "Romance",
+      "promoted": false,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad6379f1012a8b7a7210",
+      "name": "Animation",
+      "promoted": false,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad6979f1012a8b7a7212",
+      "name": "Documentary",
+      "promoted": false,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad7179f1012a8b7a7214",
+      "name": "Musical",
+      "promoted": false,
+      "__v": 0
+    },
+    {
+      "_id": "6793ad7979f1012a8b7a7216",
+      "name": "Western",
+      "promoted": true,
+      "__v": 0
+    },
+    {
+      "_id": "6795045783b83a2dc0a5aba3",
+      "name": "Adults",
+      "promoted": true,
+      "__v": 0
+    },
+    {
+      "_id": "679505ae83b83a2dc0a5abb2",
+      "name": "Mystery",
+      "promoted": true,
+      "__v": 0
+    }
+  ]
