@@ -111,6 +111,9 @@ public class MovieRepository {
                     @Override
                     public void onSuccess() {
                         Log.d("MOVIE_REPO", "Movie created successfully!");
+                        Executors.newSingleThreadExecutor().execute(() -> {
+                                movieDao.insert(movie);
+                        });
                         isCreatedLiveData.postValue(true);
                     }
                     @Override
@@ -138,6 +141,9 @@ public class MovieRepository {
             @Override
             public void onSuccess() {
                 Log.d("MOVIE_REPO", "Movie updated successfully!");
+                Executors.newSingleThreadExecutor().execute(() -> {
+                    movieDao.update(movie);
+                });
                 isUpdatedLiveData.postValue(true);
             }
             @Override

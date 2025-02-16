@@ -1,0 +1,334 @@
+{
+    "Adventure": [
+      {
+        "_id": "6793af5fab4c49ea057756b8",
+        "title": "Avatar: The Way of Water",
+        "category": {
+          "_id": "6793ad5179f1012a8b7a720a",
+          "name": "Adventure",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Avatar.mp4",
+        "description": "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their home.",
+        "image": "Avatar.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a48c8b5fbd09fba1aaf8a1",
+        "title": "Black Panther",
+        "category": {
+          "_id": "6793ad5179f1012a8b7a720a",
+          "name": "Adventure",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Black_Panther.mp4",
+        "description": "T'Challa, heir to the hidden but advanced kingdom of Wakanda, must step forward to lead his people into a new future and must confront a challenger from his country's past.",
+        "image": "Black_Panther.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a48e9d5fbd09fba1aaf8a9",
+        "title": "Dune: Prophecy",
+        "category": {
+          "_id": "6793ad5179f1012a8b7a720a",
+          "name": "Adventure",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Dune.mp4",
+        "description": "Two Harkonnen sisters combat forces that threaten the future of humankind and establish the fabled sect that will become known as the Bene Gesserit.",
+        "image": "Dune.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a48f9e5fbd09fba1aaf8ad",
+        "title": "Free Guy",
+        "category": {
+          "_id": "6793ad5179f1012a8b7a720a",
+          "name": "Adventure",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Free_Guy.mp4",
+        "description": "When Guy, a bank teller, learns that he is a non-player character in a bloodthirsty, open-world video game, he goes on to become the hero of the story and takes the responsibility of saving the world.",
+        "image": "Free_Guy.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a490135fbd09fba1aaf8af",
+        "title": "Guardians of the Galaxy",
+        "category": {
+          "_id": "6793ad5179f1012a8b7a720a",
+          "name": "Adventure",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "A group of intergalactic criminals must pull together to stop a fanatical warrior with plans to purge the universe.",
+        "image": "Guardians_Of_The_Galaxy.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a493435fbd09fba1aaf8bb",
+        "title": "Shazam!",
+        "category": {
+          "_id": "6793ad5179f1012a8b7a720a",
+          "name": "Adventure",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "A newly fostered young boy in search of his mother instead finds unexpected super powers and soon gains a powerful enemy.",
+        "image": "Shazam.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a496485fbd09fba1aaf8c9",
+        "title": "Black Panther: Wakanda Forever",
+        "category": {
+          "_id": "6793ad5179f1012a8b7a720a",
+          "name": "Adventure",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "The people of Wakanda fight to protect their home from intervening world powers as they mourn the death of King T'Challa.",
+        "image": "Wakanda_Forever.jpg",
+        "__v": 0
+      }
+    ],
+    "Drama": [
+      {
+        "_id": "6793af9eab4c49ea057756ba",
+        "title": "F1",
+        "category": {
+          "_id": "6793ad1d79f1012a8b7a7204",
+          "name": "Drama",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "F1.mp4",
+        "description": "Follows a Formula One driver who comes out of retirement to mentor and team with a younger driver.",
+        "image": "F1.jpeg",
+        "__v": 0
+      },
+      {
+        "_id": "67a48f125fbd09fba1aaf8ab",
+        "title": "Fight Club",
+        "category": {
+          "_id": "6793ad1d79f1012a8b7a7204",
+          "name": "Drama",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Fight_Club.mp4",
+        "description": "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
+        "image": "Fight_Club.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a4926b5fbd09fba1aaf8b7",
+        "title": "Moonlight",
+        "category": {
+          "_id": "6793ad1d79f1012a8b7a7204",
+          "name": "Drama",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "A young African-American man grapples with his identity and sexuality while experiencing the everyday struggles of childhood, adolescence, and burgeoning adulthood.",
+        "image": "Moonlight.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a494165fbd09fba1aaf8bf",
+        "title": "The Assassin",
+        "category": {
+          "_id": "6793ad1d79f1012a8b7a7204",
+          "name": "Drama",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "A female assassin receives a dangerous mission to kill a political leader in eighth-century China.",
+        "image": "The_Assassin.jpg",
+        "__v": 0
+      }
+    ],
+    "Kids": [
+      {
+        "_id": "6793afe7ab4c49ea057756bc",
+        "title": "How To Train Your Dragon",
+        "category": {
+          "_id": "6793ad0579f1012a8b7a7200",
+          "name": "Kids",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "How_To_Train_Your_Dragon.mp4",
+        "description": "Follows a young Viking as he aspires to hunt dragons, and how he unexpectedly becomes a friend of a young dragon.",
+        "image": "How_To_Train_Your_Dragon.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "6793b00aab4c49ea057756be",
+        "title": "Lilo & Stitch",
+        "category": {
+          "_id": "6793ad0579f1012a8b7a7200",
+          "name": "Kids",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Lilo&Stitch.mp4",
+        "description": "Live-action remake of Disney's animated classic 'Lilo and Stitch'.",
+        "image": "Lilo&Stitch.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a4922d5fbd09fba1aaf8b5",
+        "title": "Moana 2",
+        "category": {
+          "_id": "6793ad0579f1012a8b7a7200",
+          "name": "Kids",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "After receiving an unexpected call from her wayfinding ancestors, Moana must journey to the far seas of Oceania and into dangerous, long-lost waters for an adventure unlike anything she's ever faced.",
+        "image": "Moana2.jpg",
+        "__v": 0
+      }
+    ],
+    "Action": [
+      {
+        "_id": "6793b07eab4c49ea057756c0",
+        "title": "Jamie Bond",
+        "category": {
+          "_id": "6793ad1279f1012a8b7a7202",
+          "name": "Action",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Jamie_Bond.mp4",
+        "description": "The 2025 blockbuster 'Jamie Bond' stars Margot Robbie in a thrilling new take on the iconic British spy franchise, reimagining the classic character as a female lead. Directed by a visionary filmmaker who blends traditional espionage with a modern twist, this film sets itself apart within the Bond series.",
+        "image": "Jamie_Bond.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a48d085fbd09fba1aaf8a3",
+        "title": "Blade Runner 2049",
+        "category": {
+          "_id": "6793ad1279f1012a8b7a7202",
+          "name": "Action",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Blade_Runner_2049.mp4",
+        "description": "Young Blade Runner K's discovery of a long-buried secret leads him to track down former Blade Runner Rick Deckard, who's been missing for thirty years.",
+        "image": "Blade_Runner_2049.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a48d865fbd09fba1aaf8a5",
+        "title": "Borderlands",
+        "category": {
+          "_id": "6793ad1279f1012a8b7a7202",
+          "name": "Action",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Borderlands.mp4",
+        "description": "An infamous bounty hunter returns to her childhood home, the chaotic planet Pandora, and forms an unlikely alliance with a team of misfits to find the missing daughter of the most powerful man in the universe.",
+        "image": "Borderlands.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a491c15fbd09fba1aaf8b3",
+        "title": "The Matrix",
+        "category": {
+          "_id": "6793ad1279f1012a8b7a7202",
+          "name": "Action",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.",
+        "image": "Matrix.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a493b05fbd09fba1aaf8bd",
+        "title": "Tenet",
+        "category": {
+          "_id": "6793ad1279f1012a8b7a7202",
+          "name": "Action",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "Armed with only the word Tenet, and fighting for the survival of the entire world, CIA operative, The Protagonist, journeys through a twilight world of international espionage on a global mission that unfolds beyond real time.",
+        "image": "Tenet.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a495475fbd09fba1aaf8c5",
+        "title": "Top Gun: Maverick",
+        "category": {
+          "_id": "6793ad1279f1012a8b7a7202",
+          "name": "Action",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "The story involves Maverick confronting his past while training a group of younger Top Gun graduates, including the son of his deceased best friend, for a dangerous mission.",
+        "image": "Top_Gun_Maverick.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a497645fbd09fba1aaf8cf",
+        "title": "Wonder Woman",
+        "category": {
+          "_id": "6793ad1279f1012a8b7a7202",
+          "name": "Action",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Guardians_of_the_Galaxy.mp4",
+        "description": "When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny.",
+        "image": "Wonder_Women.jpg",
+        "__v": 0
+      }
+    ],
+    "Comedia": [
+      {
+        "_id": "67a48c1a5fbd09fba1aaf89f",
+        "title": "Back in Action",
+        "category": {
+          "_id": "6793acbc79f1012a8b7a71fe",
+          "name": "Comedia",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Back_In_Action.mp4",
+        "description": "Former CIA spies Emily and Matt are pulled back into espionage after their secret identities are exposed.",
+        "image": "Back_In_Action.jpg",
+        "__v": 0
+      },
+      {
+        "_id": "67a48e2e5fbd09fba1aaf8a7",
+        "title": "Bullet Train",
+        "category": {
+          "_id": "6793acbc79f1012a8b7a71fe",
+          "name": "Comedia",
+          "promoted": true,
+          "__v": 0
+        },
+        "video": "Bullet_Train.mp4",
+        "description": "Five assassins aboard a swiftly-moving bullet train find out that their missions have something in common.",
+        "image": "Bullet_Train.jpg",
+        "__v": 0
+      }
+    ]
+  }

@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.myapplication.MovieDetailsActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.entities.Movie;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         if (movies != null) {
             Movie current = movies.get(position);
-            String imageUrl = "http://10.0.2.2:8080/image/" + current.getImage();
+            String imageUrl = RetrofitClient.getBase_Url()+"image/" + current.getImage();
             Glide.with(holder.itemView.getContext())
                     .load(imageUrl)
                     .apply(new RequestOptions()
