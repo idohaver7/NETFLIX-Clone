@@ -32,14 +32,14 @@ Backend Server (Node.js): Node.js will serve as the backbone of the application,
 
   Without Docker:
     1. cd Server
-      Terminal 1:
-          1. cd server
-          2. npm install
-          3. NODE_ENV=local node app.js
-      Terminal 2:
-          1. cd tcpServer
-          2. make
-          3. ./server
+        Terminal 1:
+            1. cd server
+            2. npm install
+            3. NODE_ENV=local node app.js
+        Terminal 2:
+            1. cd tcpServer
+            2. make
+            3. ./server
             
 ## React Web App
     Docker:
