@@ -6,15 +6,12 @@ export default function Header({showButtons, token }) {
     const navigate = useNavigate();
     const [user, setUser] = useState({})
     const [categories, setCategories] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [searchTerm, setSearchTerm] = useState('');
-
-    useEffect(() => {
-        console.log(user)
-    }, [user])
     
     useEffect(() => {
         if (token) {
+            setLoading(true)
             fetch(`http://localhost:8080/api/categories`, {
                 method: 'GET',
                 headers: {
@@ -32,6 +29,7 @@ export default function Header({showButtons, token }) {
 
     useEffect(() => {
         if (token) {
+            setLoading(true)
             fetch(`http://localhost:8080/api/users`, {
                 method: 'GET',
                 headers: {
@@ -42,6 +40,7 @@ export default function Header({showButtons, token }) {
             .then(response => response.json())
             .then(data => {
                 setUser(data)
+                setLoading(false)
             })
         }
     }, [])
