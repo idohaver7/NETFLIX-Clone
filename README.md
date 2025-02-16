@@ -24,6 +24,7 @@ Backend Server (Node.js): Node.js will serve as the backbone of the application,
 ## Android
 
 ## Server
+```
   Docker:
     1. cd Server
     2. docker-compose build  
@@ -40,6 +41,7 @@ Backend Server (Node.js): Node.js will serve as the backbone of the application,
             1. cd tcpServer
             2. make
             3. ./server
+```
             
 ## React Web App
     Docker:
