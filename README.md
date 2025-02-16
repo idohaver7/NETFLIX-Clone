@@ -1,4 +1,3 @@
-# Advanced-EX4
 # Welcome To Our Netflix APP
 This project is a Netflix clone built using React for the web frontend, Android for the mobile application, and Node.js for the backend. It aims to replicate the core features of Netflix, providing a robust solution for streaming video content on both web and mobile platforms.
 
