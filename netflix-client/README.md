@@ -16,29 +16,29 @@ Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 # Examples
-## Home Page
+### `Home Page`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/homepage.png)
 
-## Register
+### `Register`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/register.png)
 
-## Sign In
+### `Sign In`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/signin.png)
 
-## Logged Page
+### `Logged Page`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/logged.png)
 
-## Search Page
+### `Search Page`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/search.png)
 
-## Movie Page
+### `Movie Page`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/moviepage.png)
 
-## Movie Player
+### `Movie Player`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/movieplayer.png)
 
-## Manager
+### `Manager`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/manager.png)
 
-## Add Movie
+### `Add Movie`
 ![alt text](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/addmovie.png)
