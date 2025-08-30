@@ -61,14 +61,21 @@ This Netflix Clone serves both as a technical showcase and a learning platform f
 
 | Home Page | Register | Sign In | Logged In |
 |---|---|---|---|
-| ![Home](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/homepage.png) | ![Register](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/register.png) | ![Sign In](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/signin.png) | ![Logged In](https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/logged.png) |
+| <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/homepage.png" width="300"/> | <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/register.png" width="300"/> | <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/signin.png" width="300"/> | <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/logged.png" width="300"/> |
+
+| Search Page | Movie Page | Movie Player | Manager | Add Movie |
+|---|---|---|---|---|
+| <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/search.png" width="300"/> | <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/moviepage.png" width="300"/> | <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/movieplayer.png" width="300"/> | <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/manager.png" width="300"/> | <img src="https://github.com/NirPerets/Advanced-EX4/blob/main/netflix-client/example/addmovie.png" width="300"/> |
 
 ### Android App
 
 | Home Page | Sign Up | Login | After Login |
 |---|---|---|---|
-| ![Home](https://github.com/user-attachments/assets/35ae55ae-3029-4943-832d-0feaddf19031) | ![Sign Up](https://github.com/user-attachments/assets/d729d088-8b70-4ac6-b325-c2e99330f1e4) | ![Login](https://github.com/user-attachments/assets/f7fc57b5-b198-477d-b3a5-d894261b0dbd) | ![After Login](https://github.com/user-attachments/assets/f28e7d8d-a0e9-4fed-ac5c-a13e41ba4707) |
+| <img src="https://github.com/user-attachments/assets/35ae55ae-3029-4943-832d-0feaddf19031" width="300"/> | <img src="https://github.com/user-attachments/assets/d729d088-8b70-4ac6-b325-c2e99330f1e4" width="300"/> | <img src="https://github.com/user-attachments/assets/f7fc57b5-b198-477d-b3a5-d894261b0dbd" width="300"/> | <img src="https://github.com/user-attachments/assets/f28e7d8d-a0e9-4fed-ac5c-a13e41ba4707" width="300"/> |
 
+| Movie Details | Play Movie | Search | Management |
+|---|---|---|---|
+| <img src="https://github.com/user-attachments/assets/8c49e68e-c1df-47f1-a17e-eae9cbac94ed" width="300"/> | <img src="https://github.com/user-attachments/assets/5c1352cc-f2d2-4c73-81c9-075fee4017a0" width="300"/> | <img src="https://github.com/user-attachments/assets/e45b3da0-f210-45d8-9095-2086255c7f64" width="300"/> | <img src="https://github.com/user-attachments/assets/c9adc28a-4674-4fd7-8ab4-e923dfdce410" width="300"/> |
 ---
 
 ## Project Structure
