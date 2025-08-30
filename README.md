@@ -176,12 +176,12 @@ npm start
 
 ## Authors
 
+- [Ido Haver](https://github.com/idohaver7)
 - [Nir Perets](https://github.com/NirPerets)
 - [Daniel Gusakov](https://github.com/DanielGusakov)
-- [Ido Haver](https://github.com/idohaver7)
 
 ---
 
 ## Support
 
-For questions, open an [issue](https://github.com/idohaver7/NETFLIX-Clone/issues) or contact us at <your-email@example.com>.
+For questions, open an [issue](https://github.com/idohaver7/NETFLIX-Clone/issues) or contact us at <idohaver7@gmail.com>.
