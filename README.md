@@ -27,22 +27,23 @@ Replicates core Netflix features: streaming, recommendations, user authenticatio
 
 ## Overview
 
-Netflix Clone aims to deliver a full-stack streaming platform:
-- **React Web App**: Dynamic and responsive user experience.
-- **Android Mobile App**: Native experience for Android users.
-- **Node.js Backend**: Fast, scalable API server for authentication, recommendations, and data management.
+Developed as a capstone project for an Advanced System Programming course, this Netflix Clone demonstrates the integration of multiple technologies into a full-stack streaming platform. The project emphasizes practical skills in system programming, client-server communication, and collaborative development.
 
----
+- **Frontend:**  
+  - **React Web App:** Delivers a dynamic and responsive UI for desktop users, closely mimicking the Netflix experience.
+  - **Android Mobile App:** Built using Android Studio (Java), the mobile client provides a native experience for Android devices, with custom layouts and optimized user flows for touch interfaces.
+- **Backend:**  
+  - Node.js and Express.js power the API server, handling authentication, recommendations, and data management.
+  - The backend server is designed to support multithreading, enabling efficient handling of concurrent requests and improved scalability.
+  - MongoDB Atlas enables scalable, cloud-hosted storage for movies, user profiles, and categories.
+- **Educational Focus:**  
+  - The project applies advanced system programming concepts such as networking, concurrency (including multithreaded server design), secure authentication, and API design.
+  - Development included collaboration, modular coding, and version control practices.
+- **Key Features:**  
+  - Real-time video streaming, personalized recommendations, secure user authentication, and an admin panel for content management.
+  - DevOps integration using Docker, Docker Compose, and CI/CD for streamlined deployment.
 
-## Features
-
-- **User Authentication** — Secure login, registration, JWT-based sessions.
-- **Video Streaming** — Seamless playback for movies and shows.
-- **Search & Recommendations** — Intelligent search, personalized suggestions.
-- **Admin Panel** — Manage content and categories (for admin users).
-
----
-
+This Netflix Clone serves both as a technical showcase and a learning platform for mastering system programming and full-stack development in a real-world scenario.
 ## Technologies
 
 - **Frontend**: React (Hooks, Context API)
